@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
-import logoImage from 'figma:asset/ce59eeccef0d9776fa8fba765e5d4b98cd4ae7aa.png';
 
 export function Footer() {
   const [email, setEmail] = useState('');

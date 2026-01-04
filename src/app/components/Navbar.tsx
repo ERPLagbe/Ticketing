@@ -7,7 +7,6 @@ import { MegaMenu } from './MegaMenu';
 import { LanguageModal } from './LanguageModal';
 import { useLocale } from '../contexts/LocaleContext';
 import { SearchBar } from './SearchBar';
-import logoImage from 'figma:asset/e4e0ab92e0fe3075b4bf81bf6e49fac5107a5512.png';
 
 export function Navbar() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
@@ -275,7 +274,7 @@ export function Navbar() {
           <div className="flex items-center space-x-8">
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0">
-              <img src={logoImage} alt="Ticket" className="h-16" />
+              <img src="/getyourguide-logo.svg" alt="GetYourGuide" className="h-16" />
             </Link>
 
             {/* Navigation Menu beside Logo (Hidden on mobile/tablet) */}
