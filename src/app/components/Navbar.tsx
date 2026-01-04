@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { MegaMenu } from './MegaMenu';
 import { LanguageModal } from './LanguageModal';
-import { CurrencySelector } from './CurrencySelector';
 import { useLocale } from '../contexts/LocaleContext';
 import { SearchBar } from './SearchBar';
 import logoImage from 'figma:asset/e4e0ab92e0fe3075b4bf81bf6e49fac5107a5512.png';
@@ -15,7 +14,7 @@ export function Navbar() {
   const { items } = useSelector((state: RootState) => state.cart);
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
   const activities = useSelector((state: RootState) => state.activities.items);
-  const { language, currency } = useLocale();
+  const { language } = useLocale();
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [selectedRegion, setSelectedRegion] = useState<string>('Top attractions');
@@ -394,7 +393,7 @@ export function Navbar() {
               onClick={() => setLanguageModalOpen(true)}
             >
               <Globe className="w-5 h-5 mb-0.5" />
-              <span className="text-xs hidden sm:block">{language.code.toUpperCase()}/{currency.code}</span>
+              <span className="text-xs hidden sm:block">{language.code.toUpperCase()}</span>
             </button>
 
             {isAuthenticated ? (
