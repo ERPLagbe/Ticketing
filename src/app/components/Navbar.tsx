@@ -13,11 +13,10 @@ export function Navbar() {
   const { items } = useSelector((state: RootState) => state.cart);
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
   const activities = useSelector((state: RootState) => state.activities.items);
+  const blogPosts = useSelector((state: RootState) => state.blog ? state.blog.posts : []);
   const { language } = useLocale();
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<string>('Top attractions');
-  const [selectedThingsRegion, setSelectedThingsRegion] = useState<string>('Top experiences');
   const [languageModalOpen, setLanguageModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
@@ -222,28 +221,38 @@ export function Navbar() {
     return grouped;
   }, [activities]);
 
-  const thingsToDoItems = thingsToDoByRegion[selectedThingsRegion] || [];
+  const thingsToDoItems = thingsToDoByRegion['Top experiences'] || [];
 
-  const tripInspirationItems = [
-    { icon: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=100', title: 'Travel Inspiration', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=100', title: 'Vienna Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=100', title: 'Savannah Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=100', title: 'Reykjavik Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=100', title: 'London Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1503631285924-e1544dce8b28?w=100', title: 'Hamburg Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=100', title: 'Krakow Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=100', title: 'Venice Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=100', title: 'San Francisco Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=100', title: 'Prague Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1455587734955-081b22074882?w=100', title: 'Lisbon Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=100', title: 'Florence Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=100', title: 'Dubai Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=100', title: 'Washington DC Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?w=100', title: 'Seville Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=100', title: 'San Diego Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1588380344085-9e2c5f5a6f5e?w=100', title: 'Porto Travel Guide', link: '/search' },
-    { icon: 'https://images.unsplash.com/photo-1543874708-d12373a0b85c?w=100', title: 'Istanbul Travel Guide', link: '/search' },
-  ];
+  // Categories for mega menu
+  const categories = useMemo(() => {
+    // Get unique categories from activities
+    const categorySet = new Set<string>();
+    const categoryData: { icon: string; title: string; subtitle: string; link: string }[] = [];
+    
+    activities.forEach(activity => {
+      if (!categorySet.has(activity.category)) {
+        categorySet.add(activity.category);
+        categoryData.push({
+          icon: activity.image,
+          title: activity.category,
+          subtitle: 'Browse all experiences',
+          link: `/search?category=${encodeURIComponent(activity.category)}`,
+        });
+      }
+    });
+    
+    return categoryData;
+  }, [activities]);
+
+  // Trip inspiration from blog posts
+  const tripInspirationItems = useMemo(() => {
+    return blogPosts.map(post => ({
+      icon: post.image,
+      title: post.title,
+      subtitle: post.readTime,
+      link: `/blog/${post.id}`,
+    }));
+  }, [blogPosts]);
 
   const regionCategories = [
     'North America',
@@ -263,8 +272,6 @@ export function Navbar() {
       }}
       onMouseLeave={() => {
         setActiveMenu(null);
-        setSelectedRegion('Top attractions');
-        setSelectedThingsRegion('Top experiences');
       }}
     >
       {/* Single Row - Logo + Menus (Left), Icons (Right) */}
@@ -282,7 +289,6 @@ export function Navbar() {
               <div
                 onMouseEnter={() => {
                   setActiveMenu('places');
-                  setSelectedRegion('Top attractions');
                 }}
               >
                 <button 
@@ -299,7 +305,6 @@ export function Navbar() {
               <div
                 onMouseEnter={() => {
                   setActiveMenu('things');
-                  setSelectedThingsRegion('Top experiences');
                 }}
               >
                 <button 
@@ -422,24 +427,20 @@ export function Navbar() {
       {activeMenu === 'places' && (
         <MegaMenu
           title="Top attractions"
-          categories={['Top attractions', ...regionCategories]}
-          items={placesToSeeByRegion[selectedRegion]}
-          onCategoryHover={(category) => setSelectedRegion(category)}
-          selectedCategory={selectedRegion}
+          items={placesToSeeByRegion['Top attractions']}
+          showExploreAll
         />
       )}
       {activeMenu === 'things' && (
         <MegaMenu
-          title="Top experiences"
-          categories={['Top experiences', ...regionCategories]}
-          items={thingsToDoItems}
-          onCategoryHover={(category) => setSelectedThingsRegion(category)}
-          selectedCategory={selectedThingsRegion}
+          title="Browse by category"
+          items={categories}
+          showExploreAll
         />
       )}
       {activeMenu === 'inspiration' && (
         <MegaMenu
-          title="City guides"
+          title="Travel guides & inspiration"
           items={tripInspirationItems}
           showExploreAll
         />

@@ -5,7 +5,7 @@ import { setDestination, setCategory } from '../store/slices/filtersSlice';
 import { RootState } from '../store/store';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-type TabType = 'attractions' | 'destinations' | 'countries' | 'categories';
+type TabType = 'attractions' | 'destinations' | 'categories';
 
 export function TopAttractionsSection() {
   const [activeTab, setActiveTab] = useState<TabType>('attractions');
@@ -15,7 +15,7 @@ export function TopAttractionsSection() {
   const { items: activities } = useSelector((state: RootState) => state.activities);
 
   // Calculate real data from activities
-  const { attractionsData, destinationsData, countriesData, categoriesData } = useMemo(() => {
+  const { attractionsData, destinationsData, categoriesData } = useMemo(() => {
     // Extract unique attractions (activity titles) with their slugs
     const attractions = activities.map(activity => ({
       name: activity.title,
@@ -34,31 +34,6 @@ export function TopAttractionsSection() {
       .map(([name, tours]) => ({ name, tours }))
       .sort((a, b) => b.tours - a.tours);
 
-    // Group activities by country (from location)
-    const countryMap = new Map<string, number>();
-    const countryDestinationMap = new Map<string, Set<string>>();
-    activities.forEach(activity => {
-      const parts = activity.location.split(',');
-      const country = parts[parts.length - 1].trim(); // Extract country name
-      const city = parts[0].trim(); // Extract city name
-      
-      countryMap.set(country, (countryMap.get(country) || 0) + 1);
-      
-      if (!countryDestinationMap.has(country)) {
-        countryDestinationMap.set(country, new Set());
-      }
-      countryDestinationMap.get(country)?.add(city);
-    });
-    const countries = Array.from(countryMap.entries())
-      .map(([name, tours], index) => ({ 
-        rank: index + 1, 
-        name, 
-        tours,
-        destinations: countryDestinationMap.get(name)?.size || 0
-      }))
-      .sort((a, b) => b.tours - a.tours)
-      .map((item, index) => ({ ...item, rank: index + 1 }));
-
     // Extract unique categories
     const categoryMap = new Map<string, number>();
     activities.forEach(activity => {
@@ -71,7 +46,6 @@ export function TopAttractionsSection() {
     return {
       attractionsData: attractions,
       destinationsData: destinations,
-      countriesData: countries,
       categoriesData: categories,
     };
   }, [activities]);
@@ -87,7 +61,7 @@ export function TopAttractionsSection() {
   };
 
   const scrollTabs = (direction: 'left' | 'right') => {
-    const tabs: TabType[] = ['attractions', 'destinations', 'countries', 'categories'];
+    const tabs: TabType[] = ['attractions', 'destinations', 'categories'];
     const currentIndex = tabs.indexOf(activeTab);
     
     if (direction === 'right' && currentIndex < tabs.length - 1) {
@@ -111,7 +85,7 @@ export function TopAttractionsSection() {
     }
   };
 
-  const tabs: TabType[] = ['attractions', 'destinations', 'countries', 'categories'];
+  const tabs: TabType[] = ['attractions', 'destinations', 'categories'];
   const currentIndex = tabs.indexOf(activeTab);
   const canGoLeft = currentIndex > 0;
   const canGoRight = currentIndex < tabs.length - 1;
@@ -189,34 +163,6 @@ export function TopAttractionsSection() {
               >
                 Top destinations
                 {activeTab === 'destinations' && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: '-1px',
-                      left: 0,
-                      right: 0,
-                      height: '3px',
-                      backgroundColor: '#ff6f00',
-                    }}
-                  />
-                )}
-              </button>
-              
-              <button
-                onClick={() => setActiveTab('countries')}
-                className="pb-4 px-1 transition-all duration-200 relative flex-shrink-0"
-                style={{
-                  color: activeTab === 'countries' ? '#1a2b49' : '#6b7280',
-                  fontSize: '15px',
-                  fontWeight: activeTab === 'countries' ? 700 : 500,
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Top countries to visit
-                {activeTab === 'countries' && (
                   <div
                     style={{
                       position: 'absolute',
@@ -334,34 +280,6 @@ export function TopAttractionsSection() {
             </button>
             
             <button
-              onClick={() => setActiveTab('countries')}
-              className="pb-5 px-1 transition-all duration-200 relative"
-              style={{
-                color: activeTab === 'countries' ? '#1a2b49' : '#6b7280',
-                fontSize: '15px',
-                fontWeight: activeTab === 'countries' ? 700 : 500,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              Top countries to visit
-              {activeTab === 'countries' && (
-                <div
-                  className="animate-slideInBottom"
-                  style={{
-                    position: 'absolute',
-                    bottom: '-1px',
-                    left: 0,
-                    right: 0,
-                    height: '3px',
-                    backgroundColor: '#1a2b49',
-                  }}
-                />
-              )}
-            </button>
-            
-            <button
               onClick={() => setActiveTab('categories')}
               className="pb-5 px-1 transition-all duration-200 relative"
               style={{
@@ -426,27 +344,6 @@ export function TopAttractionsSection() {
                 </div>
                 <div style={{ fontSize: '13px', color: '#6b7280' }}>
                   {destination.tours} tours & activities
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {activeTab === 'countries' && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 lg:gap-x-10 gap-y-6 animate-fadeIn">
-            {countriesData.map((country) => (
-              <button
-                key={country.rank}
-                onClick={() => handleDestinationClick(country.name)}
-                className={`block py-2 text-left w-full ${country.rank > 12 ? 'hidden md:block' : ''}`}
-                style={{ color: '#1a2b49', background: 'none', border: 'none', cursor: 'pointer' }}
-              >
-                <div style={{ fontSize: '15px', marginBottom: '4px' }}>
-                  <span style={{ fontWeight: 400 }}>{country.rank}. </span>
-                  <span style={{ fontWeight: 700 }}>{country.name}</span>
-                </div>
-                <div style={{ fontSize: '13px', color: '#6b7280' }}>
-                  {country.tours} {country.tours === 1 ? 'activity' : 'activities'} · {country.destinations} {country.destinations === 1 ? 'destination' : 'destinations'}
                 </div>
               </button>
             ))}

@@ -95,21 +95,46 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     setLanguageState(lang);
     localStorage.setItem('selectedLanguage', JSON.stringify(lang));
     
-    // Use Google Translate URL hash method (same as browser extension)
-    if (lang.code === 'en') {
-      // Reset to original English
-      const hash = window.location.hash;
-      if (hash.includes('googtrans')) {
-        window.location.hash = '';
-        window.location.reload();
+    // Wait for Google Translate to be ready and trigger language change
+    let retryCount = 0;
+    const maxRetries = 50; // Try for up to 5 seconds
+    
+    const triggerTranslate = () => {
+      const translateElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+      
+      if (translateElement) {
+        // Set the language
+        translateElement.value = lang.code;
+        
+        // Trigger the change event - try multiple methods for better compatibility
+        const event = new Event('change', { bubbles: true });
+        translateElement.dispatchEvent(event);
+        
+        // Also try click event on the frame
+        const frame = document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement;
+        if (frame) {
+          try {
+            const frameDoc = frame.contentDocument || frame.contentWindow?.document;
+            const links = frameDoc?.querySelectorAll('.goog-te-menu2-item span.text');
+            links?.forEach((link: any) => {
+              if (link.textContent?.toLowerCase().includes(lang.nativeName.toLowerCase())) {
+                link.click();
+              }
+            });
+          } catch (e) {
+            // Cross-origin restriction, fallback to select change
+            console.log('Using select change method');
+          }
+        }
+      } else if (retryCount < maxRetries) {
+        // Retry if element not found yet
+        retryCount++;
+        setTimeout(triggerTranslate, 100);
       }
-    } else {
-      // Set the Google Translate hash
-      // Format: #googtrans(source|target) e.g., #googtrans(en|es)
-      window.location.hash = `#googtrans(en|${lang.code})`;
-      // Reload to apply translation
-      window.location.reload();
-    }
+    };
+    
+    // Small delay to ensure Google Translate is initialized
+    setTimeout(triggerTranslate, 100);
   };
 
   const setCurrency = (curr: Currency) => {
@@ -118,16 +143,14 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Load Google Translate script
-    const addScript = () => {
-      const script = document.createElement('script');
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      script.async = true;
-      document.body.appendChild(script);
-    };
+    // Check if script already exists to avoid duplicates
+    const existingScript = document.querySelector('script[src*="translate.google.com"]');
+    if (existingScript) {
+      return;
+    }
 
     // Initialize Google Translate
-    (window as any).googleTranslateElementInit = function() {
+    const googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement(
         {
           pageLanguage: 'en',
@@ -139,27 +162,16 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       );
     };
 
-    // Check if script already exists
-    const existingScript = document.querySelector('script[src*="translate.google.com"]');
-    if (!existingScript) {
-      addScript();
-    } else if ((window as any).google?.translate) {
-      (window as any).googleTranslateElementInit();
-    }
+    // Set the callback function on window
+    (window as any).googleTranslateElementInit = googleTranslateElementInit;
 
-    // Check if there's a hash on load and apply translation
-    const hash = window.location.hash;
-    if (hash.includes('googtrans')) {
-      const match = hash.match(/#googtrans\(en\|([a-z-]+)\)/i);
-      if (match && match[1]) {
-        const langCode = match[1];
-        const savedLang = languages.find(l => l.code === langCode);
-        if (savedLang) {
-          setLanguageState(savedLang);
-          localStorage.setItem('selectedLanguage', JSON.stringify(savedLang));
-        }
-      }
-    }
+    // Add Google Translate script
+    const addScript = document.createElement('script');
+    addScript.setAttribute(
+      'src',
+      '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
+    );
+    document.body.appendChild(addScript);
   }, []);
 
   return (

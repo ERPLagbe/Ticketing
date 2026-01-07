@@ -101,6 +101,14 @@ export function ActivityDetailPage() {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedTourOption, setSelectedTourOption] = useState<number | null>(null);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [bookingDate, setBookingDate] = useState<Date>();
+
+  // Sync selectedDate from Check Availability to booking card
+  useEffect(() => {
+    if (selectedDate) {
+      setBookingDate(selectedDate);
+    }
+  }, [selectedDate]);
 
   useEffect(() => {
     if (slug) {
@@ -142,26 +150,29 @@ export function ActivityDetailPage() {
   }, [selectedActivity]);
 
   const handleBookNow = () => {
-    if (!selectedActivity || !startDate || !endDate) {
-      toast.error('Please select dates for your booking');
+    if (!selectedActivity || !bookingDate) {
+      toast.error('Please select a date for your booking');
       return;
     }
 
-    if (!pickupTime) {
-      toast.error('Please select a pickup time');
+    if (!selectedTourOption) {
+      toast.error('Please select a package option');
       return;
     }
+
+    const selectedPackage = tourOptions.find(opt => opt.id === selectedTourOption);
+    const packagePrice = selectedPackage ? selectedPackage.price : selectedActivity.price;
 
     dispatch(addToCart({
       activityId: selectedActivity.id,
       activityTitle: selectedActivity.title,
-      startDate: format(startDate, 'yyyy-MM-dd'),
-      endDate: format(endDate, 'yyyy-MM-dd'),
-      pickupTime,
+      startDate: format(bookingDate, 'yyyy-MM-dd'),
+      endDate: format(bookingDate, 'yyyy-MM-dd'),
+      pickupTime: '',
       adults,
       children,
       infants,
-      price: selectedActivity.price,
+      price: packagePrice,
       image: selectedActivity.image,
     }));
 
@@ -178,7 +189,59 @@ export function ActivityDetailPage() {
     return <LoadingShimmer />;
   }
 
-  const totalPrice = selectedActivity.price * (adults + children + infants);
+  // Mock tour options with available dates - MOVED HERE to avoid reference error
+  const tourOptions = [
+    {
+      id: 1,
+      title: 'English Guided Tour of 2 Sites (no Basilica)',
+      description: 'Make the most of your day with skip-the-line access to the Vatican Museums and Sistine Chapel on this English-guided tour.',
+      duration: '2.5 hours',
+      guide: 'English',
+      meetingPoint: 'Via Mocenigo, 15, 00192 Roma RM, Italy',
+      price: 71.44,
+      originalPrice: 142.88,
+      discount: 50,
+      freeCancellation: true,
+      likelyToSellOut: false,
+      availableDays: [1, 3, 6], // Mon, Wed, Sat
+      availableTickets: 15,
+    },
+    {
+      id: 2,
+      title: 'English 2-Hour Guided Tour of 2 Sites (no Basilica)',
+      description: 'Experience the Vatican Museums and Sistine Chapel with an official English guide on a focused 2-hour tour. Skip the line, enjoy expert insights and discover masterpieces.',
+      duration: '2 hours',
+      guide: 'English',
+      meetingPoint: 'Via Mocenigo, 15, 00192 Roma RM, Italy',
+      price: 71.44,
+      originalPrice: 142.88,
+      discount: 50,
+      freeCancellation: true,
+      likelyToSellOut: true,
+      availableDays: [2, 4], // Tue, Thu only
+      availableTickets: 3,
+    },
+    {
+      id: 3,
+      title: 'English Guided Tour of All 3 Sites',
+      description: 'Complete Vatican experience including Museums, Sistine Chapel and St. Peter\'s Basilica with skip-the-line access.',
+      duration: '3 hours',
+      guide: 'English',
+      meetingPoint: 'Via Mocenigo, 15, 00192 Roma RM, Italy',
+      price: 89.99,
+      originalPrice: 179.98,
+      discount: 50,
+      freeCancellation: true,
+      likelyToSellOut: true,
+      availableDays: [0], // Sunday only
+      availableTickets: 0,
+    },
+  ];
+
+  // Get selected package price or fallback to activity price
+  const selectedPackage = selectedTourOption ? tourOptions.find(opt => opt.id === selectedTourOption) : null;
+  const currentPrice = selectedPackage ? selectedPackage.price : selectedActivity.price;
+  const totalPrice = currentPrice * (adults + children + infants);
 
   // Mock data for additional sections
   const includedItems = [
@@ -277,58 +340,10 @@ export function ActivityDetailPage() {
     return date;
   });
 
-  // Mock tour options with available dates
-  const tourOptions = [
-    {
-      id: 1,
-      title: 'English Guided Tour of 2 Sites (no Basilica)',
-      description: 'Make the most of your day with skip-the-line access to the Vatican Museums and Sistine Chapel on this English-guided tour.',
-      duration: '2.5 hours',
-      guide: 'English',
-      meetingPoint: 'Via Mocenigo, 15, 00192 Roma RM, Italy',
-      price: 71.44,
-      originalPrice: 142.88,
-      discount: 50,
-      freeCancellation: true,
-      likelyToSellOut: false,
-      availableDays: [1, 3, 6], // Mon, Wed, Sat
-      availableTickets: 15,
-    },
-    {
-      id: 2,
-      title: 'English 2-Hour Guided Tour of 2 Sites (no Basilica)',
-      description: 'Experience the Vatican Museums and Sistine Chapel with an official English guide on a focused 2-hour tour. Skip the line, enjoy expert insights and discover masterpieces.',
-      duration: '2 hours',
-      guide: 'English',
-      meetingPoint: 'Via Mocenigo, 15, 00192 Roma RM, Italy',
-      price: 71.44,
-      originalPrice: 142.88,
-      discount: 50,
-      freeCancellation: true,
-      likelyToSellOut: true,
-      availableDays: [2, 4], // Tue, Thu only
-      availableTickets: 3,
-    },
-    {
-      id: 3,
-      title: 'English Guided Tour of All 3 Sites',
-      description: 'Complete Vatican experience including Museums, Sistine Chapel and St. Peter\'s Basilica with skip-the-line access.',
-      duration: '3 hours',
-      guide: 'English',
-      meetingPoint: 'Via Mocenigo, 15, 00192 Roma RM, Italy',
-      price: 89.99,
-      originalPrice: 179.98,
-      discount: 50,
-      freeCancellation: true,
-      likelyToSellOut: true,
-      availableDays: [0], // Sunday only
-      availableTickets: 0,
-    },
-  ];
-
-  // Filter tour options based on selected date
-  const filteredTourOptions = selectedDate 
-    ? tourOptions.filter(option => option.availableDays.includes(selectedDate.getDay()))
+  // Filter tour options based on selected date (from Check Availability) OR bookingDate (from sticky card)
+  const dateForFiltering = selectedDate || bookingDate;
+  const filteredTourOptions = dateForFiltering 
+    ? tourOptions.filter(option => option.availableDays.includes(dateForFiltering.getDay()))
     : tourOptions;
 
   // Check if a date has available tour options
@@ -349,26 +364,21 @@ export function ActivityDetailPage() {
   };
 
   const handleSelectTourOption = (optionId: number) => {
+    // Toggle selection: if already selected, unselect it
+    if (selectedTourOption === optionId) {
+      setSelectedTourOption(null);
+      return;
+    }
+    
     setSelectedTourOption(optionId);
     // Scroll to booking card
     const bookingCard = document.getElementById('booking-card');
     if (bookingCard) {
       bookingCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    // If no date selected, set today as default
-    if (!startDate) {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      setStartDate(tomorrow);
-    }
-    if (!endDate) {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      setEndDate(tomorrow);
-    }
-    // Set default pickup time
-    if (!pickupTime) {
-      setPickupTime('09:00');
+    // If no date selected in booking card but we have one in Check Availability, use it
+    if (!bookingDate && selectedDate) {
+      setBookingDate(selectedDate);
     }
   };
 
@@ -1726,7 +1736,7 @@ export function ActivityDetailPage() {
                         lineHeight: 1,
                       }}
                     >
-                      ${selectedActivity.price}
+                      ${currentPrice.toFixed(2)}
                     </span>
                     <span style={{ fontSize: '14px', color: 'var(--label-secondary)' }}>
                       per person
@@ -1735,105 +1745,7 @@ export function ActivityDetailPage() {
                 </div>
 
                 <div className="space-y-4 mb-6">
-                  {/* Date Range */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label 
-                        className="block mb-2"
-                        style={{ fontSize: '14px', fontWeight: 600, color: 'var(--label-primary)' }}
-                      >
-                        Start date
-                      </label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button 
-                            variant="outline" 
-                            className="w-full justify-start"
-                            style={{
-                              border: '1px solid var(--border-primary)',
-                              color: startDate ? 'var(--label-primary)' : 'var(--label-tertiary)',
-                            }}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {startDate ? format(startDate, 'MMM dd') : <span>Start</span>}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={startDate}
-                            onSelect={setStartDate}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-
-                    <div>
-                      <label 
-                        className="block mb-2"
-                        style={{ fontSize: '14px', fontWeight: 600, color: 'var(--label-primary)' }}
-                      >
-                        End date
-                      </label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button 
-                            variant="outline" 
-                            className="w-full justify-start"
-                            style={{
-                              border: '1px solid var(--border-primary)',
-                              color: endDate ? 'var(--label-primary)' : 'var(--label-tertiary)',
-                            }}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {endDate ? format(endDate, 'MMM dd') : <span>End</span>}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={endDate}
-                            onSelect={setEndDate}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                  </div>
-
-                  {/* Pickup Time */}
-                  <div>
-                    <label 
-                      className="block mb-2"
-                      style={{ fontSize: '14px', fontWeight: 600, color: 'var(--label-primary)' }}
-                    >
-                      Pickup time
-                    </label>
-                    <select
-                      value={pickupTime}
-                      onChange={(e) => setPickupTime(e.target.value)}
-                      className="w-full h-9 px-3 rounded-md"
-                      style={{
-                        border: '1px solid var(--border-primary)',
-                        color: pickupTime ? 'var(--label-primary)' : 'var(--label-tertiary)',
-                        fontSize: '14px',
-                      }}
-                    >
-                      <option value="">Select time</option>
-                      <option value="08:00">08:00 AM</option>
-                      <option value="09:00">09:00 AM</option>
-                      <option value="10:00">10:00 AM</option>
-                      <option value="11:00">11:00 AM</option>
-                      <option value="12:00">12:00 PM</option>
-                      <option value="13:00">01:00 PM</option>
-                      <option value="14:00">02:00 PM</option>
-                      <option value="15:00">03:00 PM</option>
-                      <option value="16:00">04:00 PM</option>
-                    </select>
-                  </div>
-
-                  {/* Travelers Dropdown */}
+                  {/* Travelers Dropdown - MOVED TO TOP */}
                   <div className="relative">
                     <label 
                       className="block mb-2"
@@ -2006,6 +1918,66 @@ export function ActivityDetailPage() {
                       </div>
                     )}
                   </div>
+
+                  {/* Single Date Field */}
+                  <div>
+                    <label 
+                      className="block mb-2"
+                      style={{ fontSize: '14px', fontWeight: 600, color: 'var(--label-primary)' }}
+                    >
+                      Date
+                    </label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button 
+                          variant="outline" 
+                          className="w-full justify-start"
+                          style={{
+                            border: '1px solid var(--border-primary)',
+                            color: bookingDate ? 'var(--label-primary)' : 'var(--label-tertiary)',
+                          }}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {bookingDate ? format(bookingDate, 'MMM dd, yyyy') : <span>Select date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={bookingDate}
+                          onSelect={setBookingDate}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+
+                  {/* Package Options */}
+                  <div>
+                    <label 
+                      className="block mb-2"
+                      style={{ fontSize: '14px', fontWeight: 600, color: 'var(--label-primary)' }}
+                    >
+                      Package Options
+                    </label>
+                    <select
+                      value={selectedTourOption || ''}
+                      onChange={(e) => setSelectedTourOption(e.target.value ? parseInt(e.target.value) : null)}
+                      className="w-full h-10 px-3 rounded-md"
+                      style={{
+                        border: '1px solid var(--border-primary)',
+                        color: selectedTourOption ? 'var(--label-primary)' : 'var(--label-tertiary)',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <option value="">Select a package</option>
+                      {filteredTourOptions.map((option) => (
+                        <option key={option.id} value={option.id} disabled={option.availableTickets === 0}>
+                          {option.title} - ${option.price} {option.availableTickets === 0 ? '(Sold Out)' : ''}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <div 
@@ -2014,7 +1986,7 @@ export function ActivityDetailPage() {
                 >
                   <div className="flex justify-between mb-3">
                     <span style={{ fontSize: '14px', color: 'var(--label-secondary)' }}>
-                      ${selectedActivity.price} × {adults} travelers
+                      ${currentPrice.toFixed(2)} × {adults + children + infants} travelers
                     </span>
                     <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--label-primary)' }}>
                       ${totalPrice.toFixed(2)}
@@ -2034,7 +2006,7 @@ export function ActivityDetailPage() {
                   className="w-full glossy-hover"
                   size="lg"
                   onClick={handleBookNow}
-                  disabled={!startDate}
+                  disabled={!bookingDate || !selectedTourOption}
                   style={{
                     backgroundColor: 'var(--interactive-primary)',
                     color: 'white',

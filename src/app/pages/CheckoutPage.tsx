@@ -380,12 +380,12 @@ export function CheckoutPage() {
                   Booking summary
                 </h2>
 
-                {items.map((item) => {
+                {items.map((item, index) => {
                   const totalTravelers = item.adults + item.children + item.infants;
                   const itemTotal = item.price * totalTravelers;
                   
                   return (
-                    <div key={item.activityId} className="mb-6">
+                    <div key={`${item.activityId}-${index}`} className="mb-6">
                       <div className="flex gap-3 mb-4">
                         <img
                           src={item.image}
