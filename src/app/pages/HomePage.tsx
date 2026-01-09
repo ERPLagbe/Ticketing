@@ -1,34 +1,20 @@
+import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Star, Shield, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../store/store';
 import { setCategory } from '../store/slices/filtersSlice';
-import { SearchBar } from '../components/SearchBar';
-import { ActivityCard } from '../components/ActivityCard';
+import { FAQSection } from '../components/FAQSection';
+import { HeroBanner } from '../components/HeroBanner';
 import { ActivityCarousel } from '../components/ActivityCarousel';
 import { DestinationCarousel } from '../components/DestinationCarousel';
 import { OriginalsSection } from '../components/OriginalsSection';
 import { TopAttractionsSection } from '../components/TopAttractionsSection';
-import { Button } from '../components/ui/button';
-import { Badge } from '../components/ui/badge';
-import { Star, TrendingUp, Award, Shield, CheckCircle2, Clock } from 'lucide-react';
-import { HeroBanner } from '../components/HeroBanner';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '../components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 export function HomePage() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { items } = useSelector((state: RootState) => state.activities);
-
-  const handleCategoryClick = (categoryName: string) => {
-    dispatch(setCategory(categoryName));
-    navigate('/search');
-  };
 
   const categories = [
     { name: 'Attractions & Museums', image: 'https://images.unsplash.com/photo-1643820509303-79e98ac7e006?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtdXNldW0lMjBhcnQlMjBnYWxsZXJ5fGVufDF8fHx8MTc2NjAxNjQzNnww&ixlib=rb-4.1.0&q=80&w=1080' },
@@ -54,6 +40,16 @@ export function HomePage() {
     { name: 'Istanbul', image: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=600' },
   ];
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (categoryName: string) => {
+    dispatch(setCategory(categoryName));
+    navigate('/search');
+  };
+
+  const plugin = useRef(Autoplay({ delay: 3000 }));
+
   return (
     <div>
       {/* Hero Banner */}
@@ -74,9 +70,10 @@ export function HomePage() {
             style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
           >
             <Carousel
+              plugins={[plugin.current]}
               opts={{
                 align: "start",
-                loop: false,
+                loop: true,
               }}
               className="w-full"
             >
@@ -117,8 +114,20 @@ export function HomePage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="-left-2 md:-left-4" />
-              <CarouselNext className="-right-2 md:-right-4" />
+              <CarouselPrevious 
+                className="bg-white shadow-lg hover:shadow-xl hover:scale-110 active:scale-95 p-3 w-12 h-12 border border-gray-200 disabled:opacity-0 transition-all duration-200"
+                style={{ 
+                  left: '-24px',
+                  transform: 'translateY(-50%)',
+                }}
+              />
+              <CarouselNext 
+                className="bg-white shadow-lg hover:shadow-xl hover:scale-110 active:scale-95 p-3 w-12 h-12 border border-gray-200 disabled:opacity-0 transition-all duration-200"
+                style={{ 
+                  right: '-24px',
+                  transform: 'translateY(-50%)',
+                }}
+              />
             </Carousel>
           </div>
         </div>
@@ -126,8 +135,14 @@ export function HomePage() {
 
       {/* Featured Activities */}
       <ActivityCarousel 
-        title="Based on your search in Porto" 
+        title="Top Recommended Activities" 
         activities={items.slice(0, 8)} 
+      />
+
+      {/* Tour Packages */}
+      <ActivityCarousel 
+        title="Explore Tour Packages" 
+        activities={items.filter(activity => activity.isTourPackage)} 
       />
 
       {/* Popular Destinations */}
@@ -154,10 +169,10 @@ export function HomePage() {
               <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mb-4 transition-transform duration-200 hover:scale-110">
                 <Star className="w-7 h-7 text-blue-600" />
               </div>
-              <h3 className="mb-2" style={{ fontSize: '16px', fontWeight: 600, color: '#1a2b49' }}>
+              <h3 className="mb-2" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--label-primary)' }}>
                 Trusted reviews
               </h3>
-              <p style={{ fontSize: '14px', color: '#6b7280' }}>
+              <p style={{ fontSize: '14px', color: 'var(--label-secondary)' }}>
                 100M+ real reviews
               </p>
             </div>
@@ -170,10 +185,10 @@ export function HomePage() {
               <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mb-4 transition-transform duration-200 hover:scale-110">
                 <Shield className="w-7 h-7 text-blue-600" />
               </div>
-              <h3 className="mb-2" style={{ fontSize: '16px', fontWeight: 600, color: '#1a2b49' }}>
+              <h3 className="mb-2" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--label-primary)' }}>
                 Quality assured
               </h3>
-              <p style={{ fontSize: '14px', color: '#6b7280' }}>
+              <p style={{ fontSize: '14px', color: 'var(--label-secondary)' }}>
                 Verified suppliers
               </p>
             </div>
@@ -186,10 +201,10 @@ export function HomePage() {
               <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mb-4 transition-transform duration-200 hover:scale-110">
                 <TrendingUp className="w-7 h-7 text-blue-600" />
               </div>
-              <h3 className="mb-2" style={{ fontSize: '16px', fontWeight: 600, color: '#1a2b49' }}>
+              <h3 className="mb-2" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--label-primary)' }}>
                 Best price guarantee
               </h3>
-              <p style={{ fontSize: '14px', color: '#6b7280' }}>
+              <p style={{ fontSize: '14px', color: 'var(--label-secondary)' }}>
                 Price match promise
               </p>
             </div>
@@ -202,14 +217,28 @@ export function HomePage() {
               <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mb-4 transition-transform duration-200 hover:scale-110">
                 <CheckCircle2 className="w-7 h-7 text-blue-600" />
               </div>
-              <h3 className="mb-2" style={{ fontSize: '16px', fontWeight: 600, color: '#1a2b49' }}>
+              <h3 className="mb-2" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--label-primary)' }}>
                 24/7 support
               </h3>
-              <p style={{ fontSize: '14px', color: '#6b7280' }}>
+              <p style={{ fontSize: '14px', color: 'var(--label-secondary)' }}>
                 We're here to help
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section style={{ backgroundColor: 'var(--surface-secondary)', padding: 'var(--spacing-8x) 0' }}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center mb-3" style={{ color: 'var(--label-primary)' }}>
+            Frequently Asked Questions
+          </h2>
+          <p className="text-center mb-12" style={{ color: 'var(--label-secondary)', fontSize: '16px' }}>
+            Everything you need to know about booking with TourTicket
+          </p>
+
+          <FAQSection />
         </div>
       </section>
     </div>

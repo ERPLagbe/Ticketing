@@ -25,9 +25,13 @@ import {
   Clock,
   Check,
   X,
-  MessageSquare
+  MessageSquare,
+  CreditCard,
+  Ticket,
+  Headphones
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { addToCart } from '../store/slices/cartSlice';
 
 export function UserDashboardPage() {
   const navigate = useNavigate();
@@ -64,6 +68,8 @@ export function UserDashboardPage() {
       travelers: 2,
       price: 142.88,
       status: 'upcoming',
+      bookingStatus: 'booking_successful',
+      paymentStatus: 'pending',
       confirmationCode: 'GYG-VM-123456',
       image: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=400&h=300&fit=crop',
     },
@@ -76,6 +82,8 @@ export function UserDashboardPage() {
       travelers: 4,
       price: 319.96,
       status: 'upcoming',
+      bookingStatus: 'ticket_delivered',
+      paymentStatus: 'paid',
       confirmationCode: 'GYG-COL-789012',
       image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400&h=300&fit=crop',
     },
@@ -88,6 +96,8 @@ export function UserDashboardPage() {
       travelers: 2,
       price: 158.00,
       status: 'completed',
+      bookingStatus: 'booking_confirmed',
+      paymentStatus: 'paid',
       confirmationCode: 'GYG-EF-345678',
       image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=400&h=300&fit=crop',
       review: {
@@ -105,6 +115,8 @@ export function UserDashboardPage() {
       travelers: 3,
       price: 225.00,
       status: 'completed',
+      bookingStatus: 'booking_confirmed',
+      paymentStatus: 'paid',
       confirmationCode: 'GYG-LV-901234',
       image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&h=300&fit=crop',
     },
@@ -161,6 +173,98 @@ export function UserDashboardPage() {
 
   const handleDownloadInvoice = (bookingId: string) => {
     toast.success('Invoice downloaded');
+  };
+
+  const handleCompletePayment = (bookingId: string) => {
+    // Find the booking
+    const booking = mockBookings.find(b => b.id === bookingId);
+    if (!booking) return;
+
+    // Add booking to cart for payment
+    dispatch(addToCart({
+      activityId: bookingId,
+      activityTitle: booking.activityTitle,
+      startDate: booking.date,
+      endDate: booking.date,
+      adults: booking.travelers,
+      children: 0,
+      infants: 0,
+      price: booking.price,
+      image: booking.image,
+      packageOption: {
+        id: `option-${bookingId}`,
+        title: 'Standard Package',
+        timeSlot: booking.time || '09:00 AM',
+      },
+    }));
+
+    // Navigate to checkout with booking ID to skip step 1
+    toast.info('Redirecting to payment...');
+    navigate(`/checkout?bookingId=${bookingId}`);
+  };
+
+  const handleDownloadTicket = (bookingId: string) => {
+    toast.success('Ticket downloaded');
+  };
+
+  const handleViewAudioGuide = (bookingId: string) => {
+    toast.info('Opening audio guide...');
+  };
+
+  const getBookingStatusBadge = (bookingStatus: string) => {
+    const statusConfig = {
+      booking_successful: { bg: '#fef3c7', color: '#92400e', text: 'Booking Successful' },
+      booking_confirmed: { bg: '#10b981', color: 'white', text: 'Booking Confirmed' },
+      cancelled: { bg: '#fee2e2', color: '#991b1b', text: 'Cancelled' },
+      ticket_pending: { bg: '#dbeafe', color: '#1e40af', text: 'Ticket Pending' },
+      ticket_delivered: { bg: '#a7f3d0', color: '#047857', text: 'Ticket Delivered' },
+    };
+
+    const config = statusConfig[bookingStatus as keyof typeof statusConfig] || statusConfig.booking_successful;
+
+    return (
+      <Badge 
+        className="flex-shrink-0"
+        style={{ 
+          backgroundColor: config.bg,
+          color: config.color,
+          fontWeight: 600,
+        }}
+      >
+        {config.text}
+      </Badge>
+    );
+  };
+
+  const getPaymentStatusBadge = (paymentStatus: string) => {
+    if (paymentStatus === 'paid') {
+      return (
+        <Badge 
+          className="flex-shrink-0"
+          style={{ 
+            backgroundColor: '#10b981',
+            color: 'white',
+            fontWeight: 600,
+          }}
+        >
+          <Check className="w-3 h-3 mr-1" />
+          Paid
+        </Badge>
+      );
+    } else {
+      return (
+        <Badge 
+          className="flex-shrink-0"
+          style={{ 
+            backgroundColor: '#fef3c7',
+            color: '#92400e',
+            fontWeight: 600,
+          }}
+        >
+          Payment Pending
+        </Badge>
+      );
+    }
   };
 
   return (
@@ -316,17 +420,10 @@ export function UserDashboardPage() {
                                 <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--label-primary)', flex: 1 }}>
                                   {booking.activityTitle}
                                 </h3>
-                                <Badge 
-                                  className="flex-shrink-0"
-                                  style={{ 
-                                    backgroundColor: '#10b981',
-                                    color: 'white',
-                                    fontWeight: 600,
-                                  }}
-                                >
-                                  <Check className="w-3 h-3 mr-1" />
-                                  Confirmed
-                                </Badge>
+                                <div className="flex flex-wrap gap-2 items-center">
+                                  {getBookingStatusBadge(booking.bookingStatus)}
+                                  {getPaymentStatusBadge(booking.paymentStatus)}
+                                </div>
                               </div>
                               
                               <div className="space-y-2 mb-4">
@@ -361,13 +458,61 @@ export function UserDashboardPage() {
                                 <span style={{ fontSize: '24px', fontWeight: 700, color: 'var(--label-primary)' }}>
                                   ${booking.price.toFixed(2)}
                                 </span>
-                                <div className="flex gap-2">
+                                <div className="flex flex-wrap gap-2">
+                                  {/* Conditional Buttons Based on Booking Status */}
+                                  {booking.bookingStatus === 'booking_successful' && (
+                                    <Button 
+                                      size="sm"
+                                      onClick={() => handleCompletePayment(booking.id)}
+                                      className="glossy-hover flex-1 sm:flex-initial"
+                                      style={{ 
+                                        backgroundColor: 'var(--interactive-primary)',
+                                        color: 'white',
+                                        fontWeight: 600,
+                                      }}
+                                    >
+                                      <CreditCard className="w-4 h-4 mr-2" />
+                                      Complete Payment
+                                    </Button>
+                                  )}
+
+                                  {booking.bookingStatus === 'ticket_delivered' && (
+                                    <>
+                                      <Button 
+                                        size="sm"
+                                        onClick={() => handleDownloadTicket(booking.id)}
+                                        className="glossy-hover flex-1 sm:flex-initial"
+                                        style={{ 
+                                          backgroundColor: 'var(--interactive-primary)',
+                                          color: 'white',
+                                          fontWeight: 600,
+                                        }}
+                                      >
+                                        <Ticket className="w-4 h-4 mr-2" />
+                                        Download Ticket
+                                      </Button>
+                                      <Button 
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleViewAudioGuide(booking.id)}
+                                        className="glossy-hover flex-1 sm:flex-initial"
+                                        style={{ 
+                                          border: '1px solid var(--border-primary)',
+                                        }}
+                                      >
+                                        <Headphones className="w-4 h-4 mr-2" />
+                                        View Audio Guide
+                                      </Button>
+                                    </>
+                                  )}
+
+                                  {/* Always Show Invoice and Cancel Buttons */}
                                   <Button 
                                     variant="outline" 
                                     size="sm"
                                     onClick={() => handleDownloadInvoice(booking.id)}
                                     className="glossy-hover flex-1 sm:flex-initial"
-                                    style={{
+                                    style={{ 
                                       border: '1px solid var(--border-primary)',
                                     }}
                                   >
@@ -379,7 +524,7 @@ export function UserDashboardPage() {
                                     size="sm"
                                     onClick={() => handleCancelBooking(booking.id)}
                                     className="glossy-hover flex-1 sm:flex-initial"
-                                    style={{
+                                    style={{ 
                                       border: '1px solid var(--border-primary)',
                                       color: '#dc2626',
                                     }}

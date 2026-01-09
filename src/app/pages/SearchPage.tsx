@@ -135,6 +135,7 @@ export function SearchPage() {
 
   const categoryTabs = [
     { id: 'all', label: 'All' },
+    { id: 'Tour Packages', label: 'Tour Packages' },
     { id: 'Attractions & Museums', label: 'Attractions & Museums' },
     { id: 'Tours & Sightseeing', label: 'Tours & Sightseeing' },
     { id: 'Cruises & Water Tours', label: 'Cruises & Water Tours' },
@@ -154,6 +155,7 @@ export function SearchPage() {
   ];
 
   const categories = [
+    'Tour Packages',
     'Attractions & Museums',
     'Tours & Sightseeing',
     'Cruises & Water Tours',
@@ -186,13 +188,13 @@ export function SearchPage() {
     let filtered = [...items];
 
     // Search query filter
-    if (searchQuery.trim()) {
+    if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(activity =>
         activity.title.toLowerCase().includes(query) ||
+        activity.destination.toLowerCase().includes(query) ||
         activity.location.toLowerCase().includes(query) ||
-        activity.category.toLowerCase().includes(query) ||
-        activity.description.toLowerCase().includes(query)
+        activity.category.toLowerCase().includes(query)
       );
     }
 
@@ -210,6 +212,7 @@ export function SearchPage() {
     // Apply filters
     if (filters.destination) {
       filtered = filtered.filter(activity =>
+        activity.destination.toLowerCase().includes(filters.destination.toLowerCase()) ||
         activity.location.toLowerCase().includes(filters.destination.toLowerCase())
       );
     }
@@ -274,15 +277,16 @@ export function SearchPage() {
     // Date range filter
     if (dateRange.from) {
       filtered = filtered.filter(activity => {
-        if (!activity.availability) return true; // If no availability data, show the activity
-        
+        // Check if activity has any options available on the selected dates
         const selectedStart = dateRange.from!;
         const selectedEnd = dateRange.to || dateRange.from!;
-        const availStart = new Date(activity.availability.startDate);
-        const availEnd = new Date(activity.availability.endDate);
         
-        // Check if selected date range overlaps with availability
-        return selectedStart <= availEnd && selectedEnd >= availStart;
+        return activity.options.some(option => {
+          return option.availableDates.some(dateStr => {
+            const optionDate = new Date(dateStr);
+            return optionDate >= selectedStart && optionDate <= selectedEnd;
+          });
+        });
       });
     }
 
@@ -578,7 +582,7 @@ export function SearchPage() {
           <div className="flex items-center justify-between gap-4">
             {/* Title */}
             <h1 className="flex-shrink-0">
-              All Destinations
+              All Activities
             </h1>
 
             {/* Right Side Controls Group */}

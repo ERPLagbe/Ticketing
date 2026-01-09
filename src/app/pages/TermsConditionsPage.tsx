@@ -1,12 +1,12 @@
 export function TermsConditionsPage() {
   return (
-    <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', paddingTop: '80px' }}>
+    <div style={{ backgroundColor: 'var(--background-primary)', minHeight: '100vh', paddingTop: '80px' }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: '48px', paddingBottom: '80px' }}>
         {/* Header */}
         <h1 style={{ 
           fontSize: '48px', 
           fontWeight: 700, 
-          color: '#1a2b49', 
+          color: 'var(--label-primary)', 
           marginBottom: '24px',
           lineHeight: '1.2'
         }}>
@@ -22,7 +22,7 @@ export function TermsConditionsPage() {
         }} />
 
         <p style={{ 
-          color: '#6b7280', 
+          color: 'var(--label-secondary)', 
           fontSize: '14px', 
           marginBottom: '48px' 
         }}>
@@ -30,12 +30,12 @@ export function TermsConditionsPage() {
         </p>
 
         {/* Content */}
-        <div style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.8' }}>
+        <div style={{ color: 'var(--grey-700)', fontSize: '16px', lineHeight: '1.8' }}>
           <section style={{ marginBottom: '40px' }}>
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               1. Acceptance of Terms
@@ -51,7 +51,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               2. Service Description
@@ -71,7 +71,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               3. Booking and Payment
@@ -79,7 +79,7 @@ export function TermsConditionsPage() {
             <h3 style={{ 
               fontSize: '20px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '12px',
               marginTop: '24px'
             }}>
@@ -99,7 +99,7 @@ export function TermsConditionsPage() {
             <h3 style={{ 
               fontSize: '20px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '12px',
               marginTop: '24px'
             }}>
@@ -119,7 +119,7 @@ export function TermsConditionsPage() {
             <h3 style={{ 
               fontSize: '20px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '12px',
               marginTop: '24px'
             }}>
@@ -136,7 +136,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               4. Cancellation and Refunds
@@ -148,7 +148,7 @@ export function TermsConditionsPage() {
             <h3 style={{ 
               fontSize: '20px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '12px',
               marginTop: '24px'
             }}>
@@ -180,7 +180,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               5. Changes and Modifications
@@ -199,7 +199,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               6. User Responsibilities
@@ -222,7 +222,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               7. Liability and Insurance
@@ -246,7 +246,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               8. Intellectual Property
@@ -266,7 +266,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               9. Reviews and User Content
@@ -293,7 +293,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               10. Privacy
@@ -308,7 +308,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               11. Force Majeure
@@ -324,7 +324,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               12. Dispute Resolution
@@ -344,7 +344,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               13. Changes to Terms
@@ -360,7 +360,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               14. Severability
@@ -375,7 +375,7 @@ export function TermsConditionsPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: '16px' 
             }}>
               15. Contact Information
@@ -385,9 +385,9 @@ export function TermsConditionsPage() {
             </p>
             <div style={{ 
               padding: '20px', 
-              backgroundColor: '#f7f7f7', 
+              backgroundColor: 'var(--surface-secondary)', 
               borderRadius: '8px',
-              border: '1px solid #e5e7eb'
+              border: '1px solid var(--border-primary)'
             }}>
               <p style={{ marginBottom: '8px' }}>
                 <strong>Email:</strong> support@getyourguide.com

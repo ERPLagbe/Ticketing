@@ -91,7 +91,7 @@ export function TopAttractionsSection() {
   const canGoRight = currentIndex < tabs.length - 1;
 
   return (
-    <section style={{ backgroundColor: '#f7f7f7', padding: 'var(--spacing-6x) 0' }}>
+    <section style={{ backgroundColor: '#f7f7f7', padding: 'var(--spacing-6x) 0', display: 'none' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Tabs with Navigation Arrows (Mobile) */}
         <div className="relative mb-10">

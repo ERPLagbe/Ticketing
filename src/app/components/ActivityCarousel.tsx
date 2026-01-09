@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ActivityCard } from './ActivityCard';
 import { Activity } from '../store/slices/activitiesSlice';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface ActivityCarouselProps {
@@ -14,6 +14,26 @@ export function ActivityCarousel({ title, activities }: ActivityCarouselProps) {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
   const navigate = useNavigate();
+
+  // Autoplay functionality
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 10;
+        
+        if (isAtEnd) {
+          // Reset to beginning
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          // Scroll to next item
+          scroll('right');
+        }
+      }
+    }, 3000); // 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const getCardWidth = () => {
     // Card width is 290px + gap of 20px

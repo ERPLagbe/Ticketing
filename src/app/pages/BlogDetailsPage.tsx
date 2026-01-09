@@ -325,9 +325,9 @@ export function BlogDetailsPage() {
       <div className="border-b" style={{ borderColor: 'var(--border-primary)', backgroundColor: 'var(--background-primary)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--label-secondary)' }}>
-            <Link to="/" className="hover:underline">Home</Link>
+            <Link to="/" className="hover:underline cursor-pointer">Home</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link to="/blog" className="hover:underline">Blog</Link>
+            <Link to="/blog" className="hover:underline cursor-pointer">Blog</Link>
             <ChevronRight className="w-4 h-4" />
             <span style={{ color: 'var(--label-primary)' }}>{post.category}</span>
           </div>
@@ -463,27 +463,6 @@ export function BlogDetailsPage() {
                     #{tag}
                   </Badge>
                 ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Author Bio */}
-        <Card className="mt-8">
-          <CardContent className="p-8">
-            <div className="flex items-start gap-6">
-              <img
-                src={post.authorImage}
-                alt={post.author}
-                className="w-20 h-20 rounded-full object-cover"
-              />
-              <div className="flex-1">
-                <h3 className="mb-2" style={{ color: 'var(--label-primary)' }}>
-                  About {post.author}
-                </h3>
-                <p style={{ color: 'var(--label-secondary)' }}>
-                  {post.authorBio}
-                </p>
               </div>
             </div>
           </CardContent>

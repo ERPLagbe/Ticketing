@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare, HelpCircle, FileText } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { FAQSection } from '../components/FAQSection';
 
 export function ContactPage() {
   const [formData, setFormData] = useState({
@@ -49,98 +50,7 @@ export function ContactPage() {
         </div>
       </div>
 
-      {/* Contact Options Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card className="hover:shadow-lg transition-shadow duration-300">
-            <CardContent className="p-6 text-center">
-              <div 
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ backgroundColor: 'var(--background-brand-subtle)' }}
-              >
-                <Phone className="w-8 h-8" style={{ color: 'var(--decorative-guiding-red)' }} />
-              </div>
-              <h3 className="mb-2" style={{ color: 'var(--label-primary)' }}>Phone Support</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--label-secondary)' }}>
-                Speak with our team
-              </p>
-              <a 
-                href="tel:+18001234567"
-                className="font-medium hover:underline"
-                style={{ color: 'var(--decorative-guiding-red)' }}
-              >
-                +1 (800) 123-4567
-              </a>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow duration-300">
-            <CardContent className="p-6 text-center">
-              <div 
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ backgroundColor: 'var(--background-brand-subtle)' }}
-              >
-                <Mail className="w-8 h-8" style={{ color: 'var(--decorative-guiding-red)' }} />
-              </div>
-              <h3 className="mb-2" style={{ color: 'var(--label-primary)' }}>Email Us</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--label-secondary)' }}>
-                Get help via email
-              </p>
-              <a 
-                href="mailto:support@getyourguide.com"
-                className="font-medium hover:underline"
-                style={{ color: 'var(--decorative-guiding-red)' }}
-              >
-                support@getyourguide.com
-              </a>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow duration-300">
-            <CardContent className="p-6 text-center">
-              <div 
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ backgroundColor: 'var(--background-brand-subtle)' }}
-              >
-                <MessageSquare className="w-8 h-8" style={{ color: 'var(--decorative-guiding-red)' }} />
-              </div>
-              <h3 className="mb-2" style={{ color: 'var(--label-primary)' }}>Live Chat</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--label-secondary)' }}>
-                Chat with us now
-              </p>
-              <button 
-                className="font-medium hover:underline"
-                style={{ color: 'var(--decorative-guiding-red)' }}
-                onClick={() => toast.info('Live chat coming soon!')}
-              >
-                Start Chat
-              </button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow duration-300">
-            <CardContent className="p-6 text-center">
-              <div 
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ backgroundColor: 'var(--background-brand-subtle)' }}
-              >
-                <HelpCircle className="w-8 h-8" style={{ color: 'var(--decorative-guiding-red)' }} />
-              </div>
-              <h3 className="mb-2" style={{ color: 'var(--label-primary)' }}>Help Center</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--label-secondary)' }}>
-                Browse FAQs
-              </p>
-              <Link 
-                to="/blog"
-                className="font-medium hover:underline"
-                style={{ color: 'var(--decorative-guiding-red)' }}
-              >
-                Visit Help Center
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Main Content: Form + Info */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Form */}
@@ -192,7 +102,7 @@ export function ContactPage() {
                       <input
                         type="email"
                         id="email"
-                        name="email"
+                        name="name"
                         required
                         value={formData.email}
                         onChange={handleChange}
@@ -304,83 +214,88 @@ export function ContactPage() {
             </Card>
           </div>
 
-          {/* Sidebar Info */}
+          {/* Sidebar Info - 2 Cards */}
           <div className="space-y-6">
-            {/* Office Hours */}
+            {/* Card 1: Contact Us */}
             <Card>
               <CardContent className="p-6">
-                <div className="flex items-start gap-3 mb-4">
-                  <Clock className="w-6 h-6 mt-1" style={{ color: 'var(--decorative-guiding-red)' }} />
-                  <div>
-                    <h3 className="mb-2" style={{ color: 'var(--label-primary)' }}>Office Hours</h3>
-                    <div className="space-y-1 text-sm" style={{ color: 'var(--label-secondary)' }}>
-                      <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                      <p>Saturday: 10:00 AM - 4:00 PM</p>
-                      <p>Sunday: Closed</p>
-                      <p className="mt-2 font-medium" style={{ color: 'var(--label-primary)' }}>
-                        24/7 Emergency Support Available
-                      </p>
+                <h3 className="mb-4" style={{ color: 'var(--label-primary)', fontSize: '18px', fontWeight: 600 }}>Contact Us</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <Phone className="w-5 h-5 mt-0.5" style={{ color: 'var(--decorative-guiding-red)' }} />
+                    <div>
+                      <p className="text-sm font-medium mb-1" style={{ color: 'var(--label-primary)' }}>Phone</p>
+                      <a 
+                        href="tel:+18001234567"
+                        className="text-sm hover:underline"
+                        style={{ color: 'var(--decorative-guiding-red)' }}
+                      >
+                        +1 (800) 123-4567
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-5 h-5 mt-0.5" style={{ color: 'var(--decorative-guiding-red)' }} />
+                    <div>
+                      <p className="text-sm font-medium mb-1" style={{ color: 'var(--label-primary)' }}>Email</p>
+                      <a 
+                        href="mailto:support@tourticket.com"
+                        className="text-sm hover:underline"
+                        style={{ color: 'var(--decorative-guiding-red)' }}
+                      >
+                        support@tourticket.com
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <MessageCircle className="w-5 h-5 mt-0.5" style={{ color: 'var(--decorative-guiding-red)' }} />
+                    <div>
+                      <p className="text-sm font-medium mb-1" style={{ color: 'var(--label-primary)' }}>WhatsApp</p>
+                      <a 
+                        href="https://wa.me/18001234567"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm hover:underline"
+                        style={{ color: 'var(--decorative-guiding-red)' }}
+                      >
+                        +1 (800) 123-4567
+                      </a>
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Office Location */}
+            {/* Card 2: Office Location & Hours Combined */}
             <Card>
               <CardContent className="p-6">
-                <div className="flex items-start gap-3 mb-4">
-                  <MapPin className="w-6 h-6 mt-1" style={{ color: 'var(--decorative-guiding-red)' }} />
-                  <div>
-                    <h3 className="mb-2" style={{ color: 'var(--label-primary)' }}>Office Location</h3>
-                    <div className="space-y-1 text-sm" style={{ color: 'var(--label-secondary)' }}>
-                      <p>123 Travel Street</p>
-                      <p>Suite 456</p>
-                      <p>San Francisco, CA 94102</p>
-                      <p>United States</p>
-                    </div>
+                <div className="mb-5">
+                  <div className="flex items-start gap-3 mb-2">
+                    <MapPin className="w-5 h-5 mt-0.5" style={{ color: 'var(--decorative-guiding-red)' }} />
+                    <h3 style={{ color: 'var(--label-primary)', fontSize: '18px', fontWeight: 600 }}>Office Location</h3>
+                  </div>
+                  <div className="ml-8 space-y-1 text-sm" style={{ color: 'var(--label-secondary)' }}>
+                    <p>123 Travel Street</p>
+                    <p>Suite 456</p>
+                    <p>San Francisco, CA 94102</p>
+                    <p>United States</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
 
-            {/* Quick Resources */}
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-start gap-3">
-                  <FileText className="w-6 h-6 mt-1" style={{ color: 'var(--decorative-guiding-red)' }} />
-                  <div>
-                    <h3 className="mb-3" style={{ color: 'var(--label-primary)' }}>Quick Resources</h3>
-                    <div className="space-y-2">
-                      <Link 
-                        to="/blog"
-                        className="block text-sm hover:underline"
-                        style={{ color: 'var(--decorative-guiding-red)' }}
-                      >
-                        Visit our Blog
-                      </Link>
-                      <Link 
-                        to="/account/bookings"
-                        className="block text-sm hover:underline"
-                        style={{ color: 'var(--decorative-guiding-red)' }}
-                      >
-                        Manage Bookings
-                      </Link>
-                      <a 
-                        href="#"
-                        className="block text-sm hover:underline"
-                        style={{ color: 'var(--decorative-guiding-red)' }}
-                      >
-                        Cancellation Policy
-                      </a>
-                      <a 
-                        href="#"
-                        className="block text-sm hover:underline"
-                        style={{ color: 'var(--decorative-guiding-red)' }}
-                      >
-                        Terms & Conditions
-                      </a>
-                    </div>
+                <div className="pt-5 border-t" style={{ borderColor: 'var(--border-primary)' }}>
+                  <div className="flex items-start gap-3 mb-2">
+                    <Clock className="w-5 h-5 mt-0.5" style={{ color: 'var(--decorative-guiding-red)' }} />
+                    <h3 style={{ color: 'var(--label-primary)', fontSize: '18px', fontWeight: 600 }}>Office Hours</h3>
+                  </div>
+                  <div className="ml-8 space-y-1 text-sm" style={{ color: 'var(--label-secondary)' }}>
+                    <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                    <p>Saturday: 10:00 AM - 4:00 PM</p>
+                    <p>Sunday: Closed</p>
+                    <p className="mt-2 font-medium" style={{ color: 'var(--label-primary)' }}>
+                      24/7 Emergency Support Available
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -390,45 +305,13 @@ export function ContactPage() {
 
         {/* FAQ Section */}
         <div className="mt-12">
-          <Card>
-            <CardContent className="p-8">
-              <h2 className="mb-6" style={{ color: 'var(--label-primary)' }}>Frequently Asked Questions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold mb-2" style={{ color: 'var(--label-primary)' }}>
-                    How do I cancel my booking?
-                  </h4>
-                  <p className="text-sm" style={{ color: 'var(--label-secondary)' }}>
-                    You can cancel your booking through your account dashboard. Most bookings offer free cancellation up to 24 hours before the activity.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2" style={{ color: 'var(--label-primary)' }}>
-                    When will I receive my tickets?
-                  </h4>
-                  <p className="text-sm" style={{ color: 'var(--label-secondary)' }}>
-                    E-tickets are sent immediately after booking confirmation. Mobile tickets are available in your account 24 hours before your activity.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2" style={{ color: 'var(--label-primary)' }}>
-                    What payment methods do you accept?
-                  </h4>
-                  <p className="text-sm" style={{ color: 'var(--label-secondary)' }}>
-                    We accept all major credit cards, debit cards, PayPal, and Apple Pay for secure and convenient payment.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2" style={{ color: 'var(--label-primary)' }}>
-                    Can I modify my booking?
-                  </h4>
-                  <p className="text-sm" style={{ color: 'var(--label-secondary)' }}>
-                    Yes, many activities allow modifications. Contact us or check your booking details for modification options.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <h2 className="text-center mb-3" style={{ color: 'var(--label-primary)' }}>
+            Frequently Asked Questions
+          </h2>
+          <p className="text-center mb-12" style={{ color: 'var(--label-secondary)', fontSize: '16px' }}>
+            Everything you need to know about booking with TourTicket
+          </p>
+          <FAQSection />
         </div>
       </div>
     </div>

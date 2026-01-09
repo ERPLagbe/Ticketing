@@ -95,46 +95,57 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     setLanguageState(lang);
     localStorage.setItem('selectedLanguage', JSON.stringify(lang));
     
-    // Wait for Google Translate to be ready and trigger language change
-    let retryCount = 0;
-    const maxRetries = 50; // Try for up to 5 seconds
-    
-    const triggerTranslate = () => {
-      const translateElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+    // Function to trigger translation
+    const triggerTranslation = () => {
+      // First, try to find and trigger the select element
+      const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
       
-      if (translateElement) {
-        // Set the language
-        translateElement.value = lang.code;
+      if (selectElement) {
+        // Set the value
+        selectElement.value = lang.code;
         
-        // Trigger the change event - try multiple methods for better compatibility
-        const event = new Event('change', { bubbles: true });
-        translateElement.dispatchEvent(event);
+        // Trigger change event
+        const changeEvent = new Event('change', { bubbles: true, cancelable: true });
+        selectElement.dispatchEvent(changeEvent);
         
-        // Also try click event on the frame
-        const frame = document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement;
-        if (frame) {
-          try {
-            const frameDoc = frame.contentDocument || frame.contentWindow?.document;
-            const links = frameDoc?.querySelectorAll('.goog-te-menu2-item span.text');
-            links?.forEach((link: any) => {
-              if (link.textContent?.toLowerCase().includes(lang.nativeName.toLowerCase())) {
-                link.click();
-              }
-            });
-          } catch (e) {
-            // Cross-origin restriction, fallback to select change
-            console.log('Using select change method');
-          }
+        // Also try triggering with native event
+        if (selectElement.onchange) {
+          selectElement.onchange(changeEvent as any);
         }
-      } else if (retryCount < maxRetries) {
-        // Retry if element not found yet
-        retryCount++;
-        setTimeout(triggerTranslate, 100);
+        
+        // Force click to ensure it triggers
+        selectElement.click();
       }
     };
     
-    // Small delay to ensure Google Translate is initialized
-    setTimeout(triggerTranslate, 100);
+    // Wait for Google Translate to be ready
+    let attempts = 0;
+    const maxAttempts = 100; // Try for 10 seconds
+    
+    const waitForGoogleTranslate = setInterval(() => {
+      attempts++;
+      
+      const selectElement = document.querySelector('.goog-te-combo');
+      
+      if (selectElement || attempts >= maxAttempts) {
+        clearInterval(waitForGoogleTranslate);
+        
+        if (selectElement) {
+          triggerTranslation();
+        } else {
+          // If Google Translate widget not found, try cookie method and reload
+          const cookieValue = lang.code === 'en' ? '' : `/en/${lang.code}`;
+          
+          if (lang.code === 'en') {
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          } else {
+            document.cookie = `googtrans=${cookieValue}; path=/; max-age=31536000`;
+          }
+          
+          window.location.reload();
+        }
+      }
+    }, 100);
   };
 
   const setCurrency = (curr: Currency) => {
@@ -178,10 +189,21 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     <LocaleContext.Provider value={{ language, currency, setLanguage, setCurrency }}>
       {children}
       {/* Hidden Google Translate Element */}
-      <div id="google_translate_element" style={{ display: 'none', position: 'absolute', top: '-9999px', left: '-9999px' }}></div>
+      <div id="google_translate_element" style={{ position: 'fixed', top: '0', left: '0', zIndex: -1, opacity: 0, pointerEvents: 'none' }}></div>
       
       {/* Hide Google Translate branding */}
       <style>{`
+        #google_translate_element {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          z-index: -1 !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+          width: 1px !important;
+          height: 1px !important;
+          overflow: hidden !important;
+        }
         .goog-te-banner-frame.skiptranslate {
           display: none !important;
         }

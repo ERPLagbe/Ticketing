@@ -77,6 +77,21 @@ export function ActivityCard({ activity, showWishlist = true }: ActivityCardProp
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 group-hover:brightness-105"
             />
             
+            {/* Tour Package Badge */}
+            {activity.isTourPackage && (
+              <div 
+                className="absolute top-3 left-3 px-3 py-1.5 rounded-full font-semibold text-xs"
+                style={{
+                  backgroundColor: '#FF4905',
+                  color: 'white',
+                  boxShadow: '0 2px 8px rgba(255, 73, 5, 0.3)',
+                  letterSpacing: '0.3px',
+                }}
+              >
+                TOUR PACKAGE
+              </div>
+            )}
+
             {/* Wishlist Button */}
             {showWishlist && (
               <button
@@ -137,7 +152,7 @@ export function ActivityCard({ activity, showWishlist = true }: ActivityCardProp
                 marginBottom: 'var(--spacing-1-5x)',
               }}
             >
-              {activity.details ? activity.details.join(' • ') : activity.duration}
+              {activity.duration}
             </p>
 
             {/* Rating */}

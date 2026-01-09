@@ -1,12 +1,12 @@
 export function PrivacyPolicyPage() {
   return (
-    <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', paddingTop: 'var(--spacing-10x)' }}>
+    <div style={{ backgroundColor: 'var(--background-primary)', minHeight: '100vh', paddingTop: 'var(--spacing-10x)' }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: 'var(--spacing-6x)', paddingBottom: 'var(--spacing-10x)' }}>
         {/* Header */}
         <h1 style={{ 
           fontSize: '48px', 
           fontWeight: 700, 
-          color: '#1a2b49', 
+          color: 'var(--label-primary)', 
           marginBottom: 'var(--spacing-3x)',
           lineHeight: '1.2'
         }}>
@@ -14,7 +14,7 @@ export function PrivacyPolicyPage() {
         </h1>
         
         {/* Last Updated */}
-        <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: 'var(--spacing-3x)' }}>
+        <p style={{ fontSize: '14px', color: 'var(--label-secondary)', marginBottom: 'var(--spacing-3x)' }}>
           Last updated: January 1, 2025
         </p>
         
@@ -30,12 +30,12 @@ export function PrivacyPolicyPage() {
         />
 
         {/* Content */}
-        <div style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.8' }}>
+        <div style={{ color: 'var(--grey-700)', fontSize: '16px', lineHeight: '1.8' }}>
           <section style={{ marginBottom: 'var(--spacing-5x)' }}>
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               1. Introduction
@@ -51,7 +51,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               2. Information We Collect
@@ -59,7 +59,7 @@ export function PrivacyPolicyPage() {
             <h3 style={{ 
               fontSize: '20px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-1x)',
               marginTop: 'var(--spacing-3x)'
             }}>
@@ -83,7 +83,7 @@ export function PrivacyPolicyPage() {
             <h3 style={{ 
               fontSize: '20px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-1x)',
               marginTop: 'var(--spacing-3x)'
             }}>
@@ -109,7 +109,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               3. How We Use Your Information
@@ -136,7 +136,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               4. Sharing Your Information
@@ -172,7 +172,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               5. Cookies and Tracking Technologies
@@ -192,7 +192,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               6. Data Security
@@ -217,7 +217,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               7. Your Rights
@@ -243,7 +243,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               8. Data Retention
@@ -259,7 +259,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               9. Children's Privacy
@@ -275,7 +275,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               10. International Data Transfers
@@ -291,7 +291,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               11. Changes to This Privacy Policy
@@ -306,7 +306,7 @@ export function PrivacyPolicyPage() {
             <h2 style={{ 
               fontSize: '28px', 
               fontWeight: 700, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2x)' 
             }}>
               12. Contact Us
@@ -316,9 +316,9 @@ export function PrivacyPolicyPage() {
             </p>
             <div style={{ 
               padding: '20px', 
-              backgroundColor: '#f7f7f7', 
+              backgroundColor: 'var(--surface-secondary)', 
               borderRadius: '8px',
-              border: '1px solid #e5e7eb'
+              border: '1px solid var(--border-primary)'
             }}>
               <p style={{ marginBottom: '8px' }}>
                 <strong>Email:</strong> privacy@getyourguide.com

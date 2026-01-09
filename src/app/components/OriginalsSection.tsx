@@ -104,7 +104,7 @@ export function OriginalsSection() {
         {/* Title and See More Button */}
         <div className="flex items-center justify-between mb-6">
           <h2>
-            GetYourGuide Originals
+            Travel Stories & Guides
           </h2>
           
           {/* See More Button - Desktop Only */}
@@ -122,73 +122,79 @@ export function OriginalsSection() {
 
         {/* Grid */}
         <div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6"
         >
-          {blogPosts.map((post, index) => (
+          {blogPosts.slice(0, 4).map((post) => (
             <Link 
               key={post.id} 
               to={`/blog/${post.id}`} 
-              className={`block group ${index >= 3 ? 'hidden lg:block' : ''}`}
+              className="block group"
             >
               <div 
-                className="bg-white rounded-xl overflow-hidden transition-all duration-500 ease-out group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] group-hover:-translate-y-2 group-hover:scale-[1.02]"
+                className="bg-white rounded-xl overflow-hidden transition-all duration-500 ease-out group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] group-hover:-translate-y-1"
                 style={{ 
                   border: '1px solid var(--border-primary)',
                   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
+                  height: '200px',
                 }}
               >
-                {/* Image Container */}
-                <div className="relative overflow-hidden" style={{ aspectRatio: '4/3' }}>
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 group-hover:brightness-105"
-                  />
-                  
-                  {/* Category Badge */}
-                  <small 
-                    className="absolute top-3 left-3 px-3 py-1 rounded-full text-white font-semibold"
-                    style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                    }}
-                  >
-                    {post.category}
-                  </small>
-                </div>
+                <div className="flex flex-col sm:flex-row h-full">
+                  {/* Image Container */}
+                  <div className="relative overflow-hidden w-full sm:w-64 h-48 sm:h-full flex-shrink-0">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 group-hover:brightness-105"
+                    />
+                    
+                    {/* Category Badge */}
+                    <small 
+                      className="absolute top-3 left-3 px-3 py-1 rounded-full text-white font-semibold"
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                      }}
+                    >
+                      {post.category}
+                    </small>
+                  </div>
 
-                {/* Card Content */}
-                <div style={{ padding: '20px' }}>
-                  {/* Title */}
-                  <h4 
-                    className="line-clamp-2 transition-colors duration-300 group-hover:text-[var(--interactive-primary)] mb-3"
-                    style={{ 
-                      minHeight: '42px',
-                    }}
-                  >
-                    {post.title}
-                  </h4>
+                  {/* Card Content */}
+                  <div className="flex-1 flex flex-col justify-between" style={{ padding: '24px' }}>
+                    <div>
+                      {/* Title */}
+                      <h4 
+                        className="line-clamp-2 transition-colors duration-300 group-hover:text-[var(--interactive-primary)] mb-3"
+                      >
+                        {post.title}
+                      </h4>
 
-                  {/* Excerpt */}
-                  <p 
-                    className="line-clamp-2 mb-4"
-                    style={{
-                      color: 'var(--label-secondary)',
-                    }}
-                  >
-                    {post.excerpt}
-                  </p>
-
-                  {/* Meta Info */}
-                  <div className="flex items-center justify-between text-xs" style={{ color: 'var(--label-tertiary)' }}>
-                    <div className="flex items-center gap-1">
-                      <Clock style={{ width: '14px', height: '14px' }} />
-                      <span>{post.readTime}</span>
+                      {/* Excerpt */}
+                      <p 
+                        className="line-clamp-2 mb-4"
+                        style={{
+                          color: 'var(--label-secondary)',
+                        }}
+                      >
+                        {post.excerpt}
+                      </p>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Calendar style={{ width: '14px', height: '14px' }} />
-                      <span>{post.date}</span>
+
+                    {/* Meta Info */}
+                    <div className="flex items-center justify-between text-xs pt-4 border-t" style={{ color: 'var(--label-tertiary)', borderColor: 'var(--border-primary)' }}>
+                      <div className="flex items-center gap-1">
+                        <Clock style={{ width: '14px', height: '14px' }} />
+                        <span>{post.readTime}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <User style={{ width: '14px', height: '14px' }} />
+                        <span>{post.author}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Calendar style={{ width: '14px', height: '14px' }} />
+                        <span>{post.date}</span>
+                      </div>
                     </div>
                   </div>
                 </div>

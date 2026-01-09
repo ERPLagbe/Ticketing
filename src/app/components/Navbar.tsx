@@ -1,27 +1,69 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, ShoppingCart, User, ChevronDown, Globe, Search } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { Heart, ShoppingCart, User, ChevronDown, Search, MapPin, Calendar, Clock, Users, Check, X, Globe } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/store';
+import { openCartDrawer } from '../store/slices/cartSlice';
 import { MegaMenu } from './MegaMenu';
+import { SearchBar } from './SearchBar';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
+import { Badge } from './ui/badge';
+import { Card, CardContent } from './ui/card';
 import { LanguageModal } from './LanguageModal';
 import { useLocale } from '../contexts/LocaleContext';
-import { SearchBar } from './SearchBar';
+import logo from 'figma:asset/d4bc859e8a72dfb9e7422680cddc41e71c226bca.png';
 
 export function Navbar() {
+  const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const { items } = useSelector((state: RootState) => state.cart);
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
   const activities = useSelector((state: RootState) => state.activities.items);
   const blogPosts = useSelector((state: RootState) => state.blog ? state.blog.posts : []);
-  const { language } = useLocale();
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const [languageModalOpen, setLanguageModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const [showSearchInNav, setShowSearchInNav] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [trackingModalOpen, setTrackingModalOpen] = useState(false);
+  const [bookingIdInput, setBookingIdInput] = useState('');
+  const [searchedBooking, setSearchedBooking] = useState<any>(null);
+  const [searchError, setSearchError] = useState('');
+  const [languageModalOpen, setLanguageModalOpen] = useState(false);
+  const { language } = useLocale();
+
+  // Mock bookings database for tracking (public access)
+  const mockBookingsDatabase = [
+    {
+      id: '1',
+      confirmationCode: 'GYG-VM-123456',
+      activityTitle: 'Vatican Museums & Sistine Chapel Skip-the-Line Tour',
+      location: 'Vatican City, Rome',
+      date: '2024-12-28',
+      time: '09:00 AM',
+      travelers: 2,
+      price: 142.88,
+      bookingStatus: 'booking_successful',
+      paymentStatus: 'pending',
+      image: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=400&h=300&fit=crop',
+    },
+    {
+      id: '2',
+      confirmationCode: 'GYG-COL-789012',
+      activityTitle: 'Colosseum Underground & Ancient Rome Tour',
+      location: 'Colosseum, Rome',
+      date: '2024-12-30',
+      time: '02:00 PM',
+      travelers: 4,
+      price: 319.96,
+      bookingStatus: 'ticket_delivered',
+      paymentStatus: 'paid',
+      image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400&h=300&fit=crop',
+    },
+  ];
 
   const isHomePage = location.pathname === '/';
   const shouldBeTransparent = isHomePage && isDesktop && !isScrolled;
@@ -263,6 +305,90 @@ export function Navbar() {
     'Australia & the Pacific',
   ];
 
+  const handleTrackBooking = () => {
+    if (!bookingIdInput.trim()) {
+      setSearchError('Please enter a booking ID');
+      return;
+    }
+
+    // Search for booking by confirmation code or ID
+    const booking = mockBookingsDatabase.find(
+      b => b.confirmationCode.toLowerCase() === bookingIdInput.trim().toLowerCase() || 
+           b.id === bookingIdInput.trim()
+    );
+
+    if (booking) {
+      setSearchedBooking(booking);
+      setSearchError('');
+    } else {
+      setSearchedBooking(null);
+      setSearchError('Booking not found. Please check your booking ID and try again.');
+    }
+  };
+
+  const handleCloseTrackingModal = () => {
+    setTrackingModalOpen(false);
+    setBookingIdInput('');
+    setSearchedBooking(null);
+    setSearchError('');
+  };
+
+  const getBookingStatusBadge = (bookingStatus: string) => {
+    const statusConfig = {
+      booking_successful: { bg: '#fef3c7', color: '#92400e', text: 'Booking Successful' },
+      booking_confirmed: { bg: '#10b981', color: 'white', text: 'Booking Confirmed' },
+      cancelled: { bg: '#fee2e2', color: '#991b1b', text: 'Cancelled' },
+      ticket_pending: { bg: '#dbeafe', color: '#1e40af', text: 'Ticket Pending' },
+      ticket_delivered: { bg: '#a7f3d0', color: '#047857', text: 'Ticket Delivered' },
+    };
+
+    const config = statusConfig[bookingStatus as keyof typeof statusConfig] || statusConfig.booking_successful;
+
+    return (
+      <Badge 
+        className="flex-shrink-0"
+        style={{ 
+          backgroundColor: config.bg,
+          color: config.color,
+          fontWeight: 600,
+        }}
+      >
+        {config.text}
+      </Badge>
+    );
+  };
+
+  const getPaymentStatusBadge = (paymentStatus: string) => {
+    if (paymentStatus === 'paid') {
+      return (
+        <Badge 
+          className="flex-shrink-0"
+          style={{ 
+            backgroundColor: '#10b981',
+            color: 'white',
+            fontWeight: 600,
+          }}
+        >
+          <Check className="w-3 h-3 mr-1" />
+          Paid
+        </Badge>
+      );
+    } else {
+      return (
+        <Badge 
+          className="flex-shrink-0"
+          style={{ 
+            backgroundColor: '#fef3c7',
+            color: '#92400e',
+            fontWeight: 600,
+          }}
+        >
+          Payment Pending
+        </Badge>
+      );
+    }
+  };
+
   return (
     <nav 
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300" 
@@ -281,7 +407,7 @@ export function Navbar() {
           <div className="flex items-center space-x-8">
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0">
-              <img src="/getyourguide-logo.svg" alt="GetYourGuide" className="h-16" />
+              <img src={logo} alt="Gotiquet" className="h-42" />
             </Link>
 
             {/* Navigation Menu beside Logo (Hidden on mobile/tablet) */}
@@ -372,10 +498,13 @@ export function Navbar() {
               <span className="text-xs hidden sm:block">Wishlist</span>
             </Link>
 
-            <Link 
-              to="/checkout" 
-              className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full" 
+            <button 
+              className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full cursor-pointer" 
               style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(openCartDrawer());
+              }}
             >
               <div className="relative">
                 <ShoppingCart className="w-5 h-5 mb-0.5" />
@@ -389,10 +518,21 @@ export function Navbar() {
                 )}
               </div>
               <span className="text-xs hidden sm:block">Cart</span>
-            </Link>
+            </button>
 
+            {/* Track a booking button */}
             <button 
-              className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full" 
+              className="hidden md:flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full cursor-pointer" 
+              style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+              onClick={() => setTrackingModalOpen(true)}
+            >
+              <Search className="w-5 h-5 mb-0.5" />
+              <span className="text-xs whitespace-nowrap">Track Booking</span>
+            </button>
+
+            {/* Language Selector Button */}
+            <button 
+              className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full cursor-pointer" 
               style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
               onClick={() => setLanguageModalOpen(true)}
             >
@@ -446,12 +586,6 @@ export function Navbar() {
         />
       )}
 
-      {/* Language Modal */}
-      <LanguageModal
-        open={languageModalOpen}
-        onOpenChange={setLanguageModalOpen}
-      />
-
       {/* Mobile Search Dropdown */}
       {mobileSearchOpen && (
         <div 
@@ -482,6 +616,166 @@ export function Navbar() {
           }
         }
       `}</style>
+
+      {/* Tracking Modal */}
+      <Dialog open={trackingModalOpen} onOpenChange={handleCloseTrackingModal}>
+        <DialogContent 
+          className="sm:max-w-[600px]"
+          style={{
+            maxHeight: '90vh',
+            overflowY: 'auto',
+          }}
+        >
+          <DialogHeader>
+            <DialogTitle style={{ fontSize: '24px', fontWeight: 700, color: 'var(--label-primary)' }}>
+              Track Your Booking
+            </DialogTitle>
+            <DialogDescription style={{ fontSize: '14px', color: 'var(--label-secondary)', marginTop: '8px' }}>
+              Enter your booking ID or confirmation code to view your booking status
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4" style={{ marginTop: '24px' }}>
+            <div className="flex gap-2">
+              <Input 
+                type="text" 
+                placeholder="e.g., GYG-VM-123456" 
+                value={bookingIdInput} 
+                onChange={(e) => setBookingIdInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleTrackBooking();
+                  }
+                }}
+                style={{
+                  height: '48px',
+                  fontSize: '15px',
+                  border: '1px solid var(--border-primary)',
+                }}
+              />
+              <Button 
+                onClick={handleTrackBooking}
+                className="glossy-hover"
+                style={{
+                  backgroundColor: 'var(--interactive-primary)',
+                  color: 'white',
+                  fontWeight: 600,
+                  fontSize: '15px',
+                  padding: '12px 24px',
+                  height: '48px',
+                }}
+              >
+                <Search className="w-4 h-4 mr-2" />
+                Search
+              </Button>
+            </div>
+
+            {searchError && (
+              <div 
+                className="p-3 rounded-lg flex items-start gap-2"
+                style={{ backgroundColor: '#fee2e2', border: '1px solid #fecaca' }}
+              >
+                <X className="w-5 h-5 mt-0.5" style={{ color: '#dc2626' }} />
+                <p style={{ fontSize: '14px', color: '#dc2626', fontWeight: 500 }}>
+                  {searchError}
+                </p>
+              </div>
+            )}
+
+            {searchedBooking && (
+              <Card 
+                className="overflow-hidden"
+                style={{ border: '1px solid var(--border-primary)', borderRadius: '12px' }}
+              >
+                <CardContent className="p-0">
+                  <div className="flex flex-col sm:flex-row gap-4 p-6">
+                    <img
+                      src={searchedBooking.image}
+                      alt={searchedBooking.activityTitle}
+                      className="w-full sm:w-32 h-32 sm:h-32 rounded-lg object-cover flex-shrink-0"
+                      style={{ border: '1px solid var(--border-primary)' }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+                        <h4 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--label-primary)', flex: 1 }}>
+                          {searchedBooking.activityTitle}
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {getBookingStatusBadge(searchedBooking.bookingStatus)}
+                          {getPaymentStatusBadge(searchedBooking.paymentStatus)}
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2" style={{ color: 'var(--label-secondary)' }}>
+                          <MapPin className="w-4 h-4 flex-shrink-0" />
+                          <span style={{ fontSize: '14px' }}>{searchedBooking.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2" style={{ color: 'var(--label-secondary)' }}>
+                          <Calendar className="w-4 h-4 flex-shrink-0" />
+                          <span style={{ fontSize: '14px' }}>
+                            {new Date(searchedBooking.date).toLocaleDateString('en-US', { 
+                              weekday: 'long', 
+                              year: 'numeric', 
+                              month: 'long', 
+                              day: 'numeric' 
+                            })}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2" style={{ color: 'var(--label-secondary)' }}>
+                          <Clock className="w-4 h-4 flex-shrink-0" />
+                          <span style={{ fontSize: '14px' }}>{searchedBooking.time}</span>
+                        </div>
+                        <div className="flex items-center gap-2" style={{ color: 'var(--label-secondary)' }}>
+                          <Users className="w-4 h-4 flex-shrink-0" />
+                          <span style={{ fontSize: '14px' }}>
+                            {searchedBooking.travelers} traveler{searchedBooking.travelers > 1 ? 's' : ''}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div 
+                        className="mt-4 p-3 rounded-lg"
+                        style={{ backgroundColor: 'var(--fill-accent)' }}
+                      >
+                        <p style={{ fontSize: '13px', color: 'var(--label-secondary)' }}>
+                          Confirmation code: <strong style={{ color: 'var(--label-primary)' }}>{searchedBooking.confirmationCode}</strong>
+                        </p>
+                      </div>
+
+                      <div className="mt-4 pt-4 border-t flex justify-between items-center" style={{ borderColor: 'var(--border-primary)' }}>
+                        <span style={{ fontSize: '14px', color: 'var(--label-secondary)' }}>Total Amount</span>
+                        <span style={{ fontSize: '24px', fontWeight: 700, color: 'var(--label-primary)' }}>
+                          ${searchedBooking.price.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          <div className="mt-6 flex justify-end gap-3">
+            <Button 
+              variant="outline"
+              onClick={handleCloseTrackingModal}
+              style={{
+                fontWeight: 600,
+                fontSize: '15px',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                border: '1px solid var(--border-primary)',
+              }}
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Language Modal */}
+      <LanguageModal open={languageModalOpen} onOpenChange={setLanguageModalOpen} />
     </nav>
   );
 }

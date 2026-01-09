@@ -7,7 +7,7 @@ import {
   DialogDescription,
 } from './ui/dialog';
 import { Input } from './ui/input';
-import { Search, Check } from 'lucide-react';
+import { Search, Check, Loader2 } from 'lucide-react';
 import { useLocale, languages, Language } from '../contexts/LocaleContext';
 
 interface LanguageModalProps {
@@ -29,18 +29,30 @@ export function LanguageModal({ open, onOpenChange }: LanguageModalProps) {
 
   const handleSelectLanguage = (lang: Language) => {
     setIsTranslating(true);
-    setLanguage(lang);
     
-    // Show translating message briefly
-    setTimeout(() => {
-      setIsTranslating(false);
-      onOpenChange(false);
-    }, 500);
+    // Don't close modal - let the translation trigger and page reload/update handle it
+    setLanguage(lang);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
+        {/* Loading Overlay */}
+        {isTranslating && (
+          <div 
+            className="absolute inset-0 bg-white bg-opacity-95 flex flex-col items-center justify-center z-50 rounded-lg"
+            style={{ backdropFilter: 'blur(4px)' }}
+          >
+            <Loader2 className="w-12 h-12 animate-spin text-blue-600 mb-4" />
+            <p style={{ fontSize: '16px', fontWeight: 600, color: '#1a2b49' }}>
+              Applying translation...
+            </p>
+            <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '8px' }}>
+              The page will reload momentarily
+            </p>
+          </div>
+        )}
+
         <DialogHeader>
           <DialogTitle style={{ fontSize: '24px', fontWeight: 700, color: '#1a2b49' }}>
             Select Language

@@ -22,6 +22,26 @@ export function DestinationCarousel({ title, destinations }: DestinationCarousel
   const [showRightArrow, setShowRightArrow] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Autoplay functionality
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 10;
+        
+        if (isAtEnd) {
+          // Reset to beginning
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          // Scroll to next item
+          scrollRight();
+        }
+      }
+    }, 3000); // 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleDestinationClick = (destinationName: string) => {
     dispatch(setDestination(destinationName));
     navigate('/search');

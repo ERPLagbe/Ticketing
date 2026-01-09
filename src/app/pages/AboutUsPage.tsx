@@ -1,12 +1,12 @@
 export function AboutUsPage() {
   return (
-    <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', paddingTop: 'var(--spacing-10x)' }}>
+    <div style={{ backgroundColor: 'var(--background-primary)', minHeight: '100vh', paddingTop: 'var(--spacing-10x)' }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: 'var(--spacing-6x)', paddingBottom: 'var(--spacing-10x)' }}>
         {/* Header */}
         <h1 style={{ 
           fontSize: '48px', 
           fontWeight: 700, 
-          color: '#1a2b49', 
+          color: 'var(--label-primary)', 
           marginBottom: 'var(--spacing-3x)',
           lineHeight: '1.2'
         }}>
@@ -25,12 +25,12 @@ export function AboutUsPage() {
         />
 
         {/* Content */}
-        <div style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.8' }}>
+        <div style={{ color: 'var(--grey-700)', fontSize: '16px', lineHeight: '1.8' }}>
           <section style={{ marginBottom: 'var(--spacing-5x)' }}>
             <h2 style={{ 
               fontSize: '32px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2-5x)' 
             }}>
               Who We Are
@@ -49,7 +49,7 @@ export function AboutUsPage() {
             <h2 style={{ 
               fontSize: '32px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2-5x)' 
             }}>
               Our Mission
@@ -69,7 +69,7 @@ export function AboutUsPage() {
             <h2 style={{ 
               fontSize: '32px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2-5x)' 
             }}>
               Why Choose Us
@@ -82,14 +82,14 @@ export function AboutUsPage() {
             }}>
               <div style={{ 
                 padding: '24px', 
-                backgroundColor: '#f7f7f7', 
+                backgroundColor: 'var(--surface-secondary)', 
                 borderRadius: '12px',
-                border: '1px solid #e5e7eb'
+                border: '1px solid var(--border-primary)'
               }}>
                 <h3 style={{ 
                   fontSize: '20px', 
                   fontWeight: 700, 
-                  color: '#1a2b49', 
+                  color: 'var(--label-primary)', 
                   marginBottom: '12px' 
                 }}>
                   🌍 Worldwide Selection
@@ -102,14 +102,14 @@ export function AboutUsPage() {
               
               <div style={{ 
                 padding: '24px', 
-                backgroundColor: '#f7f7f7', 
+                backgroundColor: 'var(--surface-secondary)', 
                 borderRadius: '12px',
-                border: '1px solid #e5e7eb'
+                border: '1px solid var(--border-primary)'
               }}>
                 <h3 style={{ 
                   fontSize: '20px', 
                   fontWeight: 700, 
-                  color: '#1a2b49', 
+                  color: 'var(--label-primary)', 
                   marginBottom: '12px' 
                 }}>
                   ✓ Best Price Guarantee
@@ -122,14 +122,14 @@ export function AboutUsPage() {
               
               <div style={{ 
                 padding: '24px', 
-                backgroundColor: '#f7f7f7', 
+                backgroundColor: 'var(--surface-secondary)', 
                 borderRadius: '12px',
-                border: '1px solid #e5e7eb'
+                border: '1px solid var(--border-primary)'
               }}>
                 <h3 style={{ 
                   fontSize: '20px', 
                   fontWeight: 700, 
-                  color: '#1a2b49', 
+                  color: 'var(--label-primary)', 
                   marginBottom: '12px' 
                 }}>
                   ⭐ Verified Reviews
@@ -142,14 +142,14 @@ export function AboutUsPage() {
               
               <div style={{ 
                 padding: '24px', 
-                backgroundColor: '#f7f7f7', 
+                backgroundColor: 'var(--surface-secondary)', 
                 borderRadius: '12px',
-                border: '1px solid #e5e7eb'
+                border: '1px solid var(--border-primary)'
               }}>
                 <h3 style={{ 
                   fontSize: '20px', 
                   fontWeight: 700, 
-                  color: '#1a2b49', 
+                  color: 'var(--label-primary)', 
                   marginBottom: '12px' 
                 }}>
                   🎫 Instant Confirmation
@@ -162,14 +162,14 @@ export function AboutUsPage() {
 
               <div style={{ 
                 padding: '24px', 
-                backgroundColor: '#f7f7f7', 
+                backgroundColor: 'var(--surface-secondary)', 
                 borderRadius: '12px',
-                border: '1px solid #e5e7eb'
+                border: '1px solid var(--border-primary)'
               }}>
                 <h3 style={{ 
                   fontSize: '20px', 
                   fontWeight: 700, 
-                  color: '#1a2b49', 
+                  color: 'var(--label-primary)', 
                   marginBottom: '12px' 
                 }}>
                   💳 Secure Booking
@@ -182,14 +182,14 @@ export function AboutUsPage() {
 
               <div style={{ 
                 padding: '24px', 
-                backgroundColor: '#f7f7f7', 
+                backgroundColor: 'var(--surface-secondary)', 
                 borderRadius: '12px',
-                border: '1px solid #e5e7eb'
+                border: '1px solid var(--border-primary)'
               }}>
                 <h3 style={{ 
                   fontSize: '20px', 
                   fontWeight: 700, 
-                  color: '#1a2b49', 
+                  color: 'var(--label-primary)', 
                   marginBottom: '12px' 
                 }}>
                   🔄 Free Cancellation
@@ -206,7 +206,7 @@ export function AboutUsPage() {
             <h2 style={{ 
               fontSize: '32px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2-5x)' 
             }}>
               Our Commitment
@@ -225,7 +225,7 @@ export function AboutUsPage() {
             <h2 style={{ 
               fontSize: '32px', 
               fontWeight: 600, 
-              color: '#1a2b49', 
+              color: 'var(--label-primary)', 
               marginBottom: 'var(--spacing-2-5x)' 
             }}>
               Join Millions of Happy Travelers

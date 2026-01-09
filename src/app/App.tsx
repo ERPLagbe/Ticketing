@@ -4,6 +4,7 @@ import { store } from './store/store';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
+import { CartDrawer } from './components/CartDrawer';
 import { HomePage } from './pages/HomePage';
 import { SearchPage } from './pages/SearchPage';
 import { ActivityDetailPage } from './pages/ActivityDetailPage';
@@ -17,6 +18,7 @@ import { BlogDetailsPage } from './pages/BlogDetailsPage';
 import { AboutUsPage } from './pages/AboutUsPage';
 import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsConditionsPage } from './pages/TermsConditionsPage';
+import { PartnerPage } from './pages/PartnerPage';
 import { LocaleProvider } from './contexts/LocaleContext';
 import { Toaster } from 'sonner';
 import '../styles/index.css';
@@ -30,6 +32,7 @@ export default function App() {
           <Toaster position="top-center" richColors />
           <div className="min-h-screen flex flex-col">
             <Navbar />
+            <CartDrawer />
             <main className="flex-1">
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -46,6 +49,7 @@ export default function App() {
                 <Route path="/about-us" element={<AboutUsPage />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                 <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+                <Route path="/partner" element={<PartnerPage />} />
               </Routes>
             </main>
             <Footer />
