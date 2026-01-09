@@ -1114,7 +1114,7 @@ export function SearchPage() {
               onValueChange={(value) => dispatch(setSortBy(value as any))}
             >
               <SelectTrigger 
-                className="w-[160px] border-none"
+                className="w-[140px] sm:w-[160px] border-none text-sm sm:text-base"
                 style={{
                   fontWeight: 600,
                   color: 'var(--label-primary)',

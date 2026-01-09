@@ -483,7 +483,7 @@ export function ActivityDetailPage() {
 
         {/* Image Gallery */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-          <div className="grid grid-cols-4 gap-2 rounded-xl overflow-hidden" style={{ height: '400px' }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 rounded-xl overflow-hidden h-[300px] sm:h-[400px]">
             {/* Main Image */}
             <button
               onClick={() => {
@@ -505,7 +505,7 @@ export function ActivityDetailPage() {
                 setSelectedImage(1);
                 setShowAllPhotos(true);
               }}
-              className="relative group cursor-pointer image-glossy"
+              className="relative group cursor-pointer image-glossy hidden md:block"
             >
               <img
                 src={selectedActivity.images[1] || selectedActivity.image}
@@ -519,7 +519,7 @@ export function ActivityDetailPage() {
                 setSelectedImage(2);
                 setShowAllPhotos(true);
               }}
-              className="relative group cursor-pointer image-glossy"
+              className="relative group cursor-pointer image-glossy hidden md:block"
             >
               <img
                 src={selectedActivity.images[2] || selectedActivity.image}
@@ -533,7 +533,7 @@ export function ActivityDetailPage() {
                 setSelectedImage(1);
                 setShowAllPhotos(true);
               }}
-              className="relative group cursor-pointer image-glossy"
+              className="relative group cursor-pointer image-glossy hidden md:block"
             >
               <img
                 src={selectedActivity.images[1] || selectedActivity.image}
@@ -544,7 +544,7 @@ export function ActivityDetailPage() {
 
             <button
               onClick={() => setShowAllPhotos(true)}
-              className="relative group cursor-pointer image-glossy"
+              className="relative group cursor-pointer image-glossy hidden md:block"
             >
               <img
                 src={selectedActivity.images[2] || selectedActivity.image}
@@ -564,23 +564,23 @@ export function ActivityDetailPage() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-3 mt-4">
+          <div className="flex items-center justify-end gap-2 sm:gap-3 mt-4">
             <Button
               variant="outline"
               onClick={handleShare}
-              className="flex items-center gap-2 glossy-hover"
+              className="flex items-center gap-1 sm:gap-2 glossy-hover text-xs sm:text-sm px-3 sm:px-4"
               style={{
                 border: '1px solid var(--border-primary)',
                 color: 'var(--label-primary)',
               }}
             >
               <Share2 className="w-4 h-4" style={{ position: 'relative', zIndex: 2 }} />
-              <span style={{ position: 'relative', zIndex: 2 }}>Share</span>
+              <span className="hidden sm:inline" style={{ position: 'relative', zIndex: 2 }}>Share</span>
             </Button>
             <Button
               variant="outline"
               onClick={handleWishlist}
-              className="flex items-center gap-2 glossy-hover"
+              className="flex items-center gap-1 sm:gap-2 glossy-hover text-xs sm:text-sm px-3 sm:px-4"
               style={{
                 border: '1px solid var(--border-primary)',
                 color: isWishlisted ? '#ef4444' : 'var(--label-primary)',
@@ -590,7 +590,7 @@ export function ActivityDetailPage() {
                 className={`w-4 h-4 ${isWishlisted ? 'fill-red-500' : ''}`}
                 style={{ position: 'relative', zIndex: 2 }}
               />
-              <span style={{ position: 'relative', zIndex: 2 }}>
+              <span className="hidden sm:inline" style={{ position: 'relative', zIndex: 2 }}>
                 {isWishlisted ? 'Saved' : 'Save'}
               </span>
             </Button>
@@ -629,20 +629,21 @@ export function ActivityDetailPage() {
 
                 <h1 className="mb-4">{selectedActivity.title}</h1>
 
-                <div className="flex items-center gap-6 flex-wrap" style={{ color: 'var(--label-secondary)' }}>
+                <div className="flex items-center gap-3 sm:gap-6 flex-wrap text-sm sm:text-base" style={{ color: 'var(--label-secondary)' }}>
                   <div className="flex items-center gap-2">
-                    <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 text-yellow-400" />
                     <span style={{ fontWeight: 700, color: 'var(--label-primary)' }}>
                       {selectedActivity.rating}
                     </span>
-                    <span>({selectedActivity.reviewCount.toLocaleString()} reviews)</span>
+                    <span className="hidden sm:inline">({selectedActivity.reviewCount.toLocaleString()} reviews)</span>
+                    <span className="sm:hidden">({selectedActivity.reviewCount > 999 ? `${(selectedActivity.reviewCount / 1000).toFixed(1)}k` : selectedActivity.reviewCount})</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="w-5 h-5" />
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>{selectedActivity.duration}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-5 h-5" />
+                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>{selectedActivity.destination}</span>
                   </div>
                 </div>
@@ -924,7 +925,7 @@ export function ActivityDetailPage() {
             </div>
 
             {/* Right Column - Booking Card */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 hidden lg:block">
               <div 
                 id="booking-card"
                 className="sticky top-24 p-6 rounded-xl"
