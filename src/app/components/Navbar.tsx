@@ -1,19 +1,50 @@
-import { useState, useEffect, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Heart, ShoppingCart, User, ChevronDown, Search, MapPin, Calendar, Clock, Users, Check, X, Globe } from 'lucide-react';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/store';
+import { logout } from '../store/slices/authSlice';
 import { openCartDrawer } from '../store/slices/cartSlice';
+import { 
+  ShoppingCart, 
+  Heart, 
+  User, 
+  Menu, 
+  X, 
+  Globe, 
+  Search, 
+  ChevronDown,
+  ChevronUp,
+  MapPin,
+  Calendar,
+  Users,
+  TrendingUp,
+  Compass,
+  Gift,
+  Briefcase,
+  BookOpen,
+  Info,
+  Mail,
+  LogOut,
+  LayoutDashboard,
+  Clock,
+  Check
+} from 'lucide-react';
+import { Button } from './ui/button';
+import { Badge } from './ui/badge';
+import { Input } from './ui/input';
+import { Card, CardContent } from './ui/card';
 import { MegaMenu } from './MegaMenu';
 import { SearchBar } from './SearchBar';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
-import { Badge } from './ui/badge';
-import { Card, CardContent } from './ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from './ui/dialog';
 import { LanguageModal } from './LanguageModal';
 import { useLocale } from '../contexts/LocaleContext';
-import logo from 'figma:asset/d4bc859e8a72dfb9e7422680cddc41e71c226bca.png';
+import { Logo } from './Logo';
 
 export function Navbar() {
   const dispatch = useDispatch();
@@ -23,6 +54,7 @@ export function Navbar() {
   const activities = useSelector((state: RootState) => state.activities.items);
   const blogPosts = useSelector((state: RootState) => state.blog ? state.blog.posts : []);
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
@@ -405,7 +437,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center flex-shrink-0">
-            <img src={logo} alt="Gotiquet" className="h-42" />
+            <Logo />
           </Link>
 
           {/* Search Bar - Appears when scrolled - Desktop Only */}

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Linkedin, Send } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide-react';
+import { Button } from './ui/button';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import logo from 'figma:asset/d4bc859e8a72dfb9e7422680cddc41e71c226bca.png';
-import footerLogo from 'figma:asset/52f715880d7d9804f4518eb144f1a2af8bdc7fbf.png';
+import { Logo } from './Logo';
 
 export function Footer() {
   const [formData, setFormData] = useState({
@@ -190,7 +190,7 @@ export function Footer() {
                 />
               </div>
 
-              <button
+              <Button
                 type="submit"
                 className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all"
                 style={{
@@ -200,9 +200,8 @@ export function Footer() {
                   fontWeight: 500,
                 }}
               >
-                <Send className="w-4 h-4" />
                 Send Message
-              </button>
+              </Button>
             </form>
           </div>
         </div>
@@ -224,6 +223,9 @@ export function Footer() {
               </Link>
               <Link to="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#e4405f] flex items-center justify-center transition-all">
                 <Instagram className="w-4 h-4 text-white" />
+              </Link>
+              <Link to="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#ff0000] flex items-center justify-center transition-all">
+                <Youtube className="w-4 h-4 text-white" />
               </Link>
             </div>
 
