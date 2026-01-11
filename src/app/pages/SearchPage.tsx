@@ -566,7 +566,7 @@ export function SearchPage() {
   };
 
   return (
-    <div className="bg-white" style={{ paddingTop: '64px' }}>
+    <div className="bg-white" style={{ paddingTop: '16px' }}>
       <style>{glossyStyles}</style>
       
       {/* Combined Title + Search Section */}

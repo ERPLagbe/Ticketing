@@ -391,74 +391,22 @@ export function Navbar() {
 
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300" 
+      className={`${isScrolled ? 'fixed' : 'relative'} top-0 left-0 right-0 z-50 transition-all duration-300`} 
       style={{ 
-        backgroundColor: shouldBeTransparent ? 'transparent' : 'var(--background-primary)', 
-        borderBottom: shouldBeTransparent ? 'none' : '1px solid var(--separator-primary)',
+        backgroundColor: 'var(--background-primary)', 
+        borderBottom: '1px solid var(--separator-primary)',
       }}
       onMouseLeave={() => {
         setActiveMenu(null);
       }}
     >
-      {/* Single Row - Logo + Menus (Left), Icons (Right) */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* First Row - Logo (Left), Icons (Right) */}
         <div className="flex items-center justify-between h-16">
-          {/* Left Side - Logo + Navigation Menu */}
-          <div className="flex items-center space-x-8">
-            {/* Logo */}
-            <Link to="/" className="flex items-center flex-shrink-0">
-              <img src={logo} alt="Gotiquet" className="h-42" />
-            </Link>
-
-            {/* Navigation Menu beside Logo (Hidden on mobile/tablet) */}
-            <div className="hidden lg:flex items-center space-x-6">
-              <div
-                onMouseEnter={() => {
-                  setActiveMenu('places');
-                }}
-              >
-                <button 
-                  className="flex items-center gap-1 py-4 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#FF6F61] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full"
-                  style={{ 
-                    color: shouldBeTransparent ? 'white' : 'var(--label-secondary)',
-                  }}
-                >
-                  Places to see
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div
-                onMouseEnter={() => {
-                  setActiveMenu('things');
-                }}
-              >
-                <button 
-                  className="flex items-center gap-1 py-4 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#FF6F61] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full"
-                  style={{ 
-                    color: shouldBeTransparent ? 'white' : 'var(--label-secondary)',
-                  }}
-                >
-                  Things to do
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div
-                onMouseEnter={() => setActiveMenu('inspiration')}
-              >
-                <button 
-                  className="flex items-center gap-1 py-4 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#FF6F61] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full"
-                  style={{ 
-                    color: shouldBeTransparent ? 'white' : 'var(--label-secondary)',
-                  }}
-                >
-                  Trip inspiration
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center flex-shrink-0">
+            <img src={logo} alt="Gotiquet" className="h-42" />
+          </Link>
 
           {/* Search Bar - Appears when scrolled - Desktop Only */}
           {showSearchInNav && isDesktop && (
@@ -472,7 +420,7 @@ export function Navbar() {
             {/* Mobile Search Icon - Only visible on mobile/tablet */}
             <button 
               className="lg:hidden flex flex-col items-center relative hover:opacity-80" 
-              style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+              style={{ color: 'var(--label-secondary)' }}
               onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
             >
               <Search className="w-5 h-5 mb-0.5" />
@@ -482,7 +430,7 @@ export function Navbar() {
             <Link 
               to="/account/wishlist" 
               className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full" 
-              style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+              style={{ color: 'var(--label-secondary)' }}
             >
               <div className="relative">
                 <Heart className="w-5 h-5 mb-0.5" />
@@ -500,7 +448,7 @@ export function Navbar() {
 
             <button 
               className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full cursor-pointer" 
-              style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+              style={{ color: 'var(--label-secondary)' }}
               onClick={(e) => {
                 e.preventDefault();
                 dispatch(openCartDrawer());
@@ -523,7 +471,7 @@ export function Navbar() {
             {/* Track a booking button */}
             <button 
               className="hidden md:flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full cursor-pointer" 
-              style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+              style={{ color: 'var(--label-secondary)' }}
               onClick={() => setTrackingModalOpen(true)}
             >
               <Search className="w-5 h-5 mb-0.5" />
@@ -533,7 +481,7 @@ export function Navbar() {
             {/* Language Selector Button */}
             <button 
               className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full cursor-pointer" 
-              style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+              style={{ color: 'var(--label-secondary)' }}
               onClick={() => setLanguageModalOpen(true)}
             >
               <Globe className="w-5 h-5 mb-0.5" />
@@ -544,7 +492,7 @@ export function Navbar() {
               <Link 
                 to="/account/bookings" 
                 className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full" 
-                style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+                style={{ color: 'var(--label-secondary)' }}
               >
                 <User className="w-5 h-5 mb-0.5" />
                 <span className="text-xs hidden sm:block">Profile</span>
@@ -553,13 +501,98 @@ export function Navbar() {
               <Link 
                 to="/login" 
                 className="flex flex-col items-center relative hover:opacity-80 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--decorative-guiding-red)] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full" 
-                style={{ color: shouldBeTransparent ? 'white' : 'var(--label-secondary)' }}
+                style={{ color: 'var(--label-secondary)' }}
               >
                 <User className="w-5 h-5 mb-0.5" />
                 <span className="text-xs hidden sm:block">Profile</span>
               </Link>
             )}
           </div>
+        </div>
+
+        {/* Second Row - Navigation Menu Dropdowns (Left), Become an Affiliate (Right) - Desktop Only */}
+        <div className="hidden lg:flex items-center justify-between h-12 border-t" style={{ borderColor: 'var(--separator-primary)' }}>
+          {/* Navigation Menu Dropdowns */}
+          <div className="flex items-center space-x-6">
+            <div
+              onMouseEnter={() => {
+                setActiveMenu('places');
+              }}
+            >
+              <button 
+                className="flex items-center gap-1 py-3 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#FF6F61] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full"
+                style={{ 
+                  color: 'var(--label-secondary)',
+                  fontSize: '14px',
+                }}
+              >
+                Places to see
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div
+              onMouseEnter={() => {
+                setActiveMenu('things');
+              }}
+            >
+              <button 
+                className="flex items-center gap-1 py-3 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#FF6F61] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full"
+                style={{ 
+                  color: 'var(--label-secondary)',
+                  fontSize: '14px',
+                }}
+              >
+                Things to do
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div
+              onMouseEnter={() => setActiveMenu('inspiration')}
+            >
+              <button 
+                className="flex items-center gap-1 py-3 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#FF6F61] after:transition-[width] after:duration-150 after:ease-in hover:after:w-full"
+                style={{ 
+                  color: 'var(--label-secondary)',
+                  fontSize: '14px',
+                }}
+              >
+                Trip inspiration
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Become an Affiliate Button */}
+          <Link 
+            to="/partner" 
+            className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 hover:opacity-90"
+            style={{ 
+              backgroundColor: '#FF4905',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: 600,
+            }}
+          >
+            Become an Affiliate
+          </Link>
+        </div>
+
+        {/* Second Row - Mobile/Tablet - Become an Affiliate Button Centered */}
+        <div className="lg:hidden flex items-center justify-start h-10 border-t px-4 sm:px-6" style={{ borderColor: 'var(--separator-primary)' }}>
+          <Link 
+            to="/partner" 
+            className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 hover:opacity-90"
+            style={{ 
+              backgroundColor: '#FF4905',
+              color: 'white',
+              fontSize: '13px',
+              fontWeight: 600,
+            }}
+          >
+            Become an Affiliate
+          </Link>
         </div>
       </div>
 

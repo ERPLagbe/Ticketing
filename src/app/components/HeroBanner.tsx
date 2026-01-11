@@ -151,11 +151,11 @@ export function HeroBanner() {
       <div 
         className="relative"
         style={{
-          minHeight: '500px',
+          minHeight: '600px',
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1761496921386-81d399db4df9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3QlMjBhaXIlMjBiYWxsb29uJTIwbGFuZHNjYXBlfGVufDF8fHx8MTc2NzgxNTA4Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          paddingTop: '100px',
+          paddingTop: '140px', // Account for navbar height (64px first row + 48px second row on desktop, 64px + 40px on mobile)
           paddingBottom: '80px',
         }}
       >
@@ -174,7 +174,7 @@ export function HeroBanner() {
           </h1>
 
           {/* Centered Search Bar */}
-          <div className="max-w-2xl mx-auto mb-12" ref={searchContainerRef}>
+          <div className="max-w-2xl mx-auto mb-12 relative" ref={searchContainerRef}>
             <div 
               className="flex items-center bg-white rounded-full shadow-2xl overflow-hidden"
               style={{ 
@@ -213,7 +213,7 @@ export function HeroBanner() {
             {/* Autocomplete Suggestions */}
             {showSuggestions && (
               <div 
-                className="absolute left-0 right-0 bg-white rounded-xl shadow-2xl overflow-hidden z-50 animate-slideDown max-w-2xl mx-auto"
+                className="absolute left-0 right-0 bg-white rounded-xl shadow-2xl overflow-hidden z-50 animate-slideDown"
                 style={{ 
                   top: 'calc(100% + 12px)',
                   border: '1px solid var(--border-primary)',
