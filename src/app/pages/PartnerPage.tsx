@@ -1,25 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, TrendingUp, Users, DollarSign, Calendar, Globe, Award, ArrowRight } from 'lucide-react';
+import { CheckCircle, TrendingUp, DollarSign, Globe, Award, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 
 export function PartnerPage() {
-  const [selectedType, setSelectedType] = useState<'creator' | 'affiliate'>('creator');
-  const [creatorFormData, setCreatorFormData] = useState({
-    fullName: '',
-    email: '',
-    instagram: '',
-    youtube: '',
-    tiktok: '',
-    otherPlatforms: '',
-    followerCount: '',
-    contentNiche: '',
-    portfolioLinks: '',
-    brandPartnerships: '',
-    partnerType: 'creator'
-  });
-
-  const [affiliateFormData, setAffiliateFormData] = useState({
+  const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     websiteUrl: '',
@@ -28,55 +13,29 @@ export function PartnerPage() {
     marketingChannels: '',
     affiliateExperience: '',
     promotionStrategy: '',
-    partnerType: 'affiliate'
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const submittedData = selectedType === 'creator' ? creatorFormData : affiliateFormData;
     // Form submission logic would go here
     toast.success('Application submitted successfully! We\'ll review your application and get back to you within 3-5 business days.');
     
-    // Reset form based on type
-    if (selectedType === 'creator') {
-      setCreatorFormData({
-        fullName: '',
-        email: '',
-        instagram: '',
-        youtube: '',
-        tiktok: '',
-        otherPlatforms: '',
-        followerCount: '',
-        contentNiche: '',
-        portfolioLinks: '',
-        brandPartnerships: '',
-        partnerType: 'creator'
-      });
-    } else {
-      setAffiliateFormData({
-        fullName: '',
-        email: '',
-        websiteUrl: '',
-        monthlyTraffic: '',
-        emailListSize: '',
-        marketingChannels: '',
-        affiliateExperience: '',
-        promotionStrategy: '',
-        partnerType: 'affiliate'
-      });
-    }
-  };
-
-  const handleCreatorChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setCreatorFormData({
-      ...creatorFormData,
-      [e.target.name]: e.target.value,
+    // Reset form
+    setFormData({
+      fullName: '',
+      email: '',
+      websiteUrl: '',
+      monthlyTraffic: '',
+      emailListSize: '',
+      marketingChannels: '',
+      affiliateExperience: '',
+      promotionStrategy: '',
     });
   };
 
-  const handleAffiliateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setAffiliateFormData({
-      ...affiliateFormData,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value,
     });
   };
@@ -87,15 +46,15 @@ export function PartnerPage() {
       <div 
         className="relative py-20 px-4 mt-8"
         style={{
-          background: 'linear-gradient(135deg, #0071eb 0%, #1a2b49 100%)',
+          background: 'linear-gradient(135deg, #FF4905 0%, #1a2b49 100%)',
         }}
       >
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl font-bold text-white mb-6">
-            Earn with Gotiquet
+            Become an Affiliate Partner
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-            Join thousands of content creators and affiliate marketers earning commissions by sharing amazing travel experiences
+            Join thousands of affiliate marketers earning commissions by sharing amazing travel experiences with your audience
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
             <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
@@ -123,9 +82,9 @@ export function PartnerPage() {
             <div className="text-center">
               <div
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ backgroundColor: '#f0f8ff' }}
+                style={{ backgroundColor: '#fff0eb' }}
               >
-                <DollarSign className="w-8 h-8" style={{ color: '#0071eb' }} />
+                <DollarSign className="w-8 h-8" style={{ color: '#FF4905' }} />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Competitive Commissions</h3>
               <p className="text-gray-600">
@@ -136,9 +95,9 @@ export function PartnerPage() {
             <div className="text-center">
               <div
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ backgroundColor: '#f0f8ff' }}
+                style={{ backgroundColor: '#fff0eb' }}
               >
-                <Globe className="w-8 h-8" style={{ color: '#0071eb' }} />
+                <Globe className="w-8 h-8" style={{ color: '#FF4905' }} />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Global Reach</h3>
               <p className="text-gray-600">
@@ -149,9 +108,9 @@ export function PartnerPage() {
             <div className="text-center">
               <div
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ backgroundColor: '#f0f8ff' }}
+                style={{ backgroundColor: '#fff0eb' }}
               >
-                <Award className="w-8 h-8" style={{ color: '#0071eb' }} />
+                <Award className="w-8 h-8" style={{ color: '#FF4905' }} />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Trusted Brand</h3>
               <p className="text-gray-600">
@@ -168,7 +127,7 @@ export function PartnerPage() {
             <div className="text-center">
               <div
                 className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold"
-                style={{ backgroundColor: '#0071eb' }}
+                style={{ backgroundColor: '#FF4905' }}
               >
                 1
               </div>
@@ -179,7 +138,7 @@ export function PartnerPage() {
             <div className="text-center">
               <div
                 className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold"
-                style={{ backgroundColor: '#0071eb' }}
+                style={{ backgroundColor: '#FF4905' }}
               >
                 2
               </div>
@@ -190,7 +149,7 @@ export function PartnerPage() {
             <div className="text-center">
               <div
                 className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold"
-                style={{ backgroundColor: '#0071eb' }}
+                style={{ backgroundColor: '#FF4905' }}
               >
                 3
               </div>
@@ -201,7 +160,7 @@ export function PartnerPage() {
             <div className="text-center">
               <div
                 className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold"
-                style={{ backgroundColor: '#0071eb' }}
+                style={{ backgroundColor: '#FF4905' }}
               >
                 4
               </div>
@@ -216,96 +175,10 @@ export function PartnerPage() {
           <div className="bg-white rounded-xl border-2 border-gray-200 p-8 shadow-lg">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Apply Now</h2>
             <p className="text-gray-600 mb-8">
-              Join as a {selectedType === 'creator' ? 'Content Creator' : 'Affiliate Marketer'} and start earning today
+              Join as an Affiliate Marketer and start earning today
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Choose Your Path - Partner Type Selection */}
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Choose Your Path</h3>
-                <p className="text-gray-600 mb-6 text-center">Select the partnership type that fits your goals</p>
-                
-                <div className="grid md:grid-cols-2 gap-6 mb-8">
-                  {/* Content Creator Card */}
-                  <div
-                    onClick={() => setSelectedType('creator')}
-                    className="cursor-pointer border-2 rounded-xl p-6 transition-all hover:shadow-lg"
-                    style={{
-                      borderColor: selectedType === 'creator' ? '#0071eb' : '#e5e7eb',
-                      backgroundColor: selectedType === 'creator' ? '#f0f8ff' : 'white',
-                    }}
-                  >
-                    <div className="flex items-start gap-3 mb-3">
-                      <div
-                        className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: '#0071eb' }}
-                      >
-                        <Users className="w-5 h-5 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-lg font-bold text-gray-900 mb-1">Content Creator</h4>
-                        <p className="text-sm text-gray-600">
-                          Perfect for bloggers, YouTubers, Instagram influencers
-                        </p>
-                      </div>
-                    </div>
-                    <ul className="space-y-2">
-                      <li className="flex items-start gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-700">Dedicated account manager</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-700">Exclusive promotional materials</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-700">Higher commission tiers available</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  {/* Affiliate Marketer Card */}
-                  <div
-                    onClick={() => setSelectedType('affiliate')}
-                    className="cursor-pointer border-2 rounded-xl p-6 transition-all hover:shadow-lg"
-                    style={{
-                      borderColor: selectedType === 'affiliate' ? '#0071eb' : '#e5e7eb',
-                      backgroundColor: selectedType === 'affiliate' ? '#f0f8ff' : 'white',
-                    }}
-                  >
-                    <div className="flex items-start gap-3 mb-3">
-                      <div
-                        className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: '#FF4905' }}
-                      >
-                        <TrendingUp className="w-5 h-5 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-lg font-bold text-gray-900 mb-1">Affiliate Marketer</h4>
-                        <p className="text-sm text-gray-600">
-                          Ideal for website owners, email marketers
-                        </p>
-                      </div>
-                    </div>
-                    <ul className="space-y-2">
-                      <li className="flex items-start gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-700">90-day cookie tracking</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-700">Real-time reporting dashboard</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-700">Performance bonuses</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -315,8 +188,8 @@ export function PartnerPage() {
                     type="text"
                     name="fullName"
                     required
-                    value={selectedType === 'creator' ? creatorFormData.fullName : affiliateFormData.fullName}
-                    onChange={selectedType === 'creator' ? handleCreatorChange : handleAffiliateChange}
+                    value={formData.fullName}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="John Doe"
                   />
@@ -330,225 +203,101 @@ export function PartnerPage() {
                     type="email"
                     name="email"
                     required
-                    value={selectedType === 'creator' ? creatorFormData.email : affiliateFormData.email}
-                    onChange={selectedType === 'creator' ? handleCreatorChange : handleAffiliateChange}
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="john@example.com"
                   />
                 </div>
               </div>
 
-              {selectedType === 'creator' && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Instagram Profile
-                    </label>
-                    <input
-                      type="text"
-                      name="instagram"
-                      value={creatorFormData.instagram}
-                      onChange={handleCreatorChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="https://www.instagram.com/yourusername"
-                    />
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Website/Blog URL *
+                </label>
+                <input
+                  type="url"
+                  name="websiteUrl"
+                  required
+                  value={formData.websiteUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://www.example.com"
+                />
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      YouTube Channel
-                    </label>
-                    <input
-                      type="text"
-                      name="youtube"
-                      value={creatorFormData.youtube}
-                      onChange={handleCreatorChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="https://www.youtube.com/yourchannel"
-                    />
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Monthly Traffic *
+                </label>
+                <input
+                  type="text"
+                  name="monthlyTraffic"
+                  required
+                  value={formData.monthlyTraffic}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="100,000+"
+                />
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      TikTok Profile
-                    </label>
-                    <input
-                      type="text"
-                      name="tiktok"
-                      value={creatorFormData.tiktok}
-                      onChange={handleCreatorChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="https://www.tiktok.com/yourusername"
-                    />
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email List Size *
+                </label>
+                <input
+                  type="text"
+                  name="emailListSize"
+                  required
+                  value={formData.emailListSize}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="10,000+"
+                />
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Other Platforms
-                    </label>
-                    <input
-                      type="text"
-                      name="otherPlatforms"
-                      value={creatorFormData.otherPlatforms}
-                      onChange={handleCreatorChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Facebook, Twitter, etc."
-                    />
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Marketing Channels *
+                </label>
+                <input
+                  type="text"
+                  name="marketingChannels"
+                  required
+                  value={formData.marketingChannels}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Email, Social Media, etc."
+                />
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Follower Count *
-                    </label>
-                    <input
-                      type="text"
-                      name="followerCount"
-                      required
-                      value={creatorFormData.followerCount}
-                      onChange={handleCreatorChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="100,000+"
-                    />
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Previous Affiliate Experience
+                </label>
+                <textarea
+                  name="affiliateExperience"
+                  value={formData.affiliateExperience}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  placeholder="Tell us about your experience with affiliate programs..."
+                />
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Content Type/Niche *
-                    </label>
-                    <input
-                      type="text"
-                      name="contentNiche"
-                      required
-                      value={creatorFormData.contentNiche}
-                      onChange={handleCreatorChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Travel, Food, Adventure, Lifestyle, etc."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Portfolio Links
-                    </label>
-                    <input
-                      type="text"
-                      name="portfolioLinks"
-                      value={creatorFormData.portfolioLinks}
-                      onChange={handleCreatorChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Links to your best content"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Previous Brand Partnerships
-                    </label>
-                    <textarea
-                      name="brandPartnerships"
-                      value={creatorFormData.brandPartnerships}
-                      onChange={handleCreatorChange}
-                      rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                      placeholder="Tell us about your experience with brand partnerships..."
-                    />
-                  </div>
-                </>
-              )}
-
-              {selectedType === 'affiliate' && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Website/Blog URL *
-                    </label>
-                    <input
-                      type="url"
-                      name="websiteUrl"
-                      required
-                      value={affiliateFormData.websiteUrl}
-                      onChange={handleAffiliateChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="https://www.example.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Monthly Traffic *
-                    </label>
-                    <input
-                      type="text"
-                      name="monthlyTraffic"
-                      required
-                      value={affiliateFormData.monthlyTraffic}
-                      onChange={handleAffiliateChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="100,000+"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email List Size *
-                    </label>
-                    <input
-                      type="text"
-                      name="emailListSize"
-                      required
-                      value={affiliateFormData.emailListSize}
-                      onChange={handleAffiliateChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="10,000+"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Marketing Channels *
-                    </label>
-                    <input
-                      type="text"
-                      name="marketingChannels"
-                      required
-                      value={affiliateFormData.marketingChannels}
-                      onChange={handleAffiliateChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Email, Social Media, etc."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Previous Affiliate Experience
-                    </label>
-                    <textarea
-                      name="affiliateExperience"
-                      value={affiliateFormData.affiliateExperience}
-                      onChange={handleAffiliateChange}
-                      rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                      placeholder="Tell us about your experience with affiliate programs..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Promotion Strategy
-                    </label>
-                    <textarea
-                      name="promotionStrategy"
-                      value={affiliateFormData.promotionStrategy}
-                      onChange={handleAffiliateChange}
-                      rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                      placeholder="Describe your promotion strategy..."
-                    />
-                  </div>
-                </>
-              )}
-
-              <input type="hidden" name="partnerType" value={selectedType} />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Promotion Strategy
+                </label>
+                <textarea
+                  name="promotionStrategy"
+                  value={formData.promotionStrategy}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  placeholder="Describe your promotion strategy..."
+                />
+              </div>
 
               <button
                 type="submit"

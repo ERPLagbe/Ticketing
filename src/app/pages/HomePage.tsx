@@ -230,7 +230,7 @@ export function HomePage() {
 
       {/* FAQ Section */}
       <section style={{ backgroundColor: 'var(--surface-secondary)', padding: 'var(--spacing-8x) 0' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <h2 className="text-center mb-3" style={{ color: 'var(--label-primary)' }}>
             Frequently Asked Questions
           </h2>

@@ -1,7 +1,12 @@
-// Reusable FAQ Section Component
+// Reusable FAQ Section Component with Accordion Functionality
 // This component is used in both HomePage and ContactPage to maintain consistency
 
+import { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+
 export function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   const faqs = [
     {
       question: 'How do I book an activity?',
@@ -29,28 +34,54 @@ export function FAQSection() {
     },
   ];
 
+  const handleToggle = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="max-w-4xl mx-auto space-y-3">
       {faqs.map((faq, index) => (
-        <details key={index} className="bg-white rounded-lg border border-gray-200 group">
-          <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+        <div 
+          key={index} 
+          className="bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-200 hover:border-gray-300"
+        >
+          <button
+            onClick={() => handleToggle(index)}
+            className="w-full flex items-center justify-between p-6 cursor-pointer text-left transition-colors duration-200 hover:bg-gray-50"
+          >
             <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--label-primary)' }}>
               {faq.question}
             </h3>
-            <svg 
-              className="w-5 h-5 transition-transform group-open:rotate-180" 
-              style={{ color: 'var(--label-secondary)' }}
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
+            <ChevronDown 
+              className="flex-shrink-0 ml-4 transition-transform duration-300" 
+              style={{ 
+                color: 'var(--label-secondary)',
+                transform: openIndex === index ? 'rotate(180deg)' : 'rotate(0deg)',
+                width: '20px',
+                height: '20px'
+              }}
+            />
+          </button>
+          
+          <div 
+            className="overflow-hidden transition-all duration-300 ease-in-out"
+            style={{ 
+              maxHeight: openIndex === index ? '500px' : '0px',
+              opacity: openIndex === index ? 1 : 0,
+            }}
+          >
+            <div 
+              className="px-6 pb-6 pt-0" 
+              style={{ 
+                color: 'var(--label-secondary)', 
+                fontSize: '15px', 
+                lineHeight: '1.6' 
+              }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </summary>
-          <div className="px-6 pb-6 pt-0" style={{ color: 'var(--label-secondary)', fontSize: '15px', lineHeight: '1.6' }}>
-            {faq.answer}
+              {faq.answer}
+            </div>
           </div>
-        </details>
+        </div>
       ))}
     </div>
   );

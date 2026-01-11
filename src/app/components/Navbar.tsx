@@ -607,11 +607,11 @@ export function Navbar() {
               fontWeight: 600,
             }}
           >
-            Become an Affiliate
+            Become a Partner
           </Link>
         </div>
 
-        {/* Second Row - Mobile/Tablet - Become an Affiliate Button Centered */}
+        {/* Second Row - Mobile/Tablet - Become a Partner Button Centered */}
         <div className="lg:hidden flex items-center justify-start h-10 border-t px-4 sm:px-6" style={{ borderColor: 'var(--separator-primary)' }}>
           <Link 
             to="/partner" 
@@ -623,7 +623,7 @@ export function Navbar() {
               fontWeight: 600,
             }}
           >
-            Become an Affiliate
+            Become a Partner
           </Link>
         </div>
       </div>

@@ -41,14 +41,7 @@ export function Footer() {
           {/* Column 1: Logo + Company Overview + Company Links */}
           <div>
             <Link to="/" className="block mb-6">
-              <h2 style={{ 
-                color: '#FF4905',
-                fontSize: '32px',
-                fontWeight: 700,
-                margin: 0
-              }}>
-                Gotiquet
-              </h2>
+              <Logo />
             </Link>
             <p className="text-gray-400 mb-6" style={{ fontSize: '14px', lineHeight: '1.7' }}>
               Your trusted platform for discovering and booking unique travel experiences worldwide. 
@@ -66,20 +59,9 @@ export function Footer() {
                 <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Contact us</Link></li>
               </ul>
             </div>
-
-            {/* Work with us Links */}
-            <div className="mt-6">
-              <h4 className="font-semibold mb-4" style={{ color: '#ffffff', fontSize: '16px' }}>
-                Work with us
-              </h4>
-              <ul className="space-y-3">
-                <li><Link to="/partner" className="text-gray-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>As an affiliate partner</Link></li>
-                <li><Link to="/partner" className="text-gray-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>As a content creator</Link></li>
-              </ul>
-            </div>
           </div>
 
-          {/* Column 2: Activity Categories */}
+          {/* Column 2: Activity Categories + Work with us */}
           <div>
             <h4 className="font-semibold mb-6" style={{ color: '#ffffff', fontSize: '16px' }}>
               Activity Categories
@@ -92,6 +74,16 @@ export function Footer() {
               <li><Link to="/search?category=Cultural & Theme Tours" className="text-gray-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Cultural & Theme Tours</Link></li>
               <li><Link to="/search?category=Outdoor Activities" className="text-gray-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Outdoor Activities</Link></li>
             </ul>
+
+            {/* Work with us Links */}
+            <div className="mt-6">
+              <h4 className="font-semibold mb-4" style={{ color: '#ffffff', fontSize: '16px' }}>
+                Work with us
+              </h4>
+              <ul className="space-y-3">
+                <li><Link to="/partner" className="text-gray-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Become a partner</Link></li>
+              </ul>
+            </div>
           </div>
 
           {/* Column 3: Mini Contact Form */}
@@ -99,7 +91,8 @@ export function Footer() {
             <h4 className="font-semibold mb-6" style={{ color: '#ffffff', fontSize: '16px' }}>
               Quick Contact
             </h4>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+              {/* Name and Email in one row */}
               <div>
                 <input
                   type="text"
@@ -134,6 +127,24 @@ export function Footer() {
                 />
               </div>
 
+              {/* Subject and Category/Select in one row */}
+              <div>
+                <input
+                  type="text"
+                  name="subject"
+                  required
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 rounded-lg border transition-colors text-sm"
+                  style={{ 
+                    borderColor: 'rgba(255, 255, 255, 0.2)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    color: '#ffffff'
+                  }}
+                  placeholder="Subject"
+                />
+              </div>
+
               <div>
                 <select
                   name="category"
@@ -156,24 +167,8 @@ export function Footer() {
                 </select>
               </div>
 
-              <div>
-                <input
-                  type="text"
-                  name="subject"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border transition-colors text-sm"
-                  style={{ 
-                    borderColor: 'rgba(255, 255, 255, 0.2)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    color: '#ffffff'
-                  }}
-                  placeholder="Subject"
-                />
-              </div>
-
-              <div>
+              {/* Message takes full width (2 columns) */}
+              <div className="col-span-2">
                 <textarea
                   name="message"
                   required
@@ -190,18 +185,21 @@ export function Footer() {
                 />
               </div>
 
-              <Button
-                type="submit"
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all"
-                style={{
-                  backgroundColor: '#FF4905',
-                  color: 'white',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                }}
-              >
-                Send Message
-              </Button>
+              {/* Button takes full width (2 columns) */}
+              <div className="col-span-2">
+                <Button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all"
+                  style={{
+                    backgroundColor: '#FF4905',
+                    color: 'white',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                  }}
+                >
+                  Send Message
+                </Button>
+              </div>
             </form>
           </div>
         </div>

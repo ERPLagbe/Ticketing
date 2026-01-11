@@ -126,9 +126,9 @@
   --label-on-color: #fff;
 
   /* Interactive Elements */
-  --interactive-primary: #0071eb;
-  --interactive-primary-hovered: #304c84;
-  --interactive-primary-pressed: #304c84;
+  --interactive-primary: #FF4905;
+  --interactive-primary-hovered: #d63d04;
+  --interactive-primary-pressed: #b83404;
   --interactive-primary-disabled: #dcdfe4;
 
   --interactive-secondary: #1a2b49;

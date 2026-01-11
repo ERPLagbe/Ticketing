@@ -23,7 +23,7 @@ export function Logo({ className = '', width = 180, height = 40 }: LogoProps) {
           width="32"
           height="24"
           rx="3"
-          fill="#0071eb"
+          fill="#FF4905"
         />
         
         {/* Perforation circles on left */}
@@ -39,7 +39,7 @@ export function Logo({ className = '', width = 180, height = 40 }: LogoProps) {
           y="8"
           width="4"
           height="24"
-          fill="#FF4905"
+          fill="#1a2b49"
         />
         
         {/* Perforation circles on right */}
@@ -50,28 +50,16 @@ export function Logo({ className = '', width = 180, height = 40 }: LogoProps) {
         <circle cx="26" cy="28" r="1" fill="white" opacity="0.4" />
       </g>
 
-      {/* Text: Tour */}
+      {/* Text: Gotiquet */}
       <text
         x="42"
         y="27"
         fontFamily="Plus Jakarta Sans, sans-serif"
         fontSize="22"
         fontWeight="700"
-        fill="#1a2b49"
+        fill="#FF4905"
       >
-        Tour
-      </text>
-
-      {/* Text: Ticket */}
-      <text
-        x="88"
-        y="27"
-        fontFamily="Plus Jakarta Sans, sans-serif"
-        fontSize="22"
-        fontWeight="700"
-        fill="#0071eb"
-      >
-        Ticket
+        Gotiquet
       </text>
     </svg>
   );
